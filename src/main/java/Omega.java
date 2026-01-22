@@ -68,6 +68,10 @@ public class Omega {
                 handleMarking(args, false);
                 yield true;
             }
+            case "delete" -> {
+                handleDelete(args);
+                yield true;
+            }
             case "todo", "event", "deadline" -> {
                 Task t = createTask(command, args);
                 addTask(t);
@@ -149,7 +153,7 @@ public class Omega {
         printWrapped(
             "As requested, I've added the task:",
             "  " + task,
-            "Now you have " + tasks.size() + " tasks in the list."
+            "You have " + tasks.size() + " tasks in the list now."
         );
     }
 
@@ -158,18 +162,7 @@ public class Omega {
             throw new OmegaException("Usage: mark N | unmark N");
         }
 
-        int taskNumber;
-        try {
-            taskNumber = Integer.parseInt(args) - 1;
-
-        } catch (NumberFormatException e) {
-            throw new OmegaException("Provide valid task list number");
-        }
-
-        if (taskNumber < 0 || taskNumber >= tasks.size())
-            throw new OmegaException("Out of bounds");
-
-        Task t = tasks.get(taskNumber);
+        Task t = tasks.get(parseTaskIndex(args));
         if (isDone) {
             t.markDone();
             printWrapped("I've marked this task as done:", "  " + t);
@@ -178,4 +171,34 @@ public class Omega {
             printWrapped("I've marked this task as not done yet:", " " + t);
         }
     }
+
+    private static void handleDelete(String args) throws OmegaException {
+        if (args.isEmpty()) {
+            throw new OmegaException("Usage: delete <taskNumber>");
+        }
+
+        Task removed = tasks.remove(parseTaskIndex(args));
+
+        printWrapped(
+                "Understood. I've removed this task:",
+                "  " + removed,
+                "You have " + tasks.size() + " tasks in the list remaining."
+        );
+    }
+
+    private static int parseTaskIndex(String args) throws OmegaException {
+        int index;
+        try {
+            index = Integer.parseInt(args.trim()) - 1;
+        } catch (NumberFormatException e) {
+            throw new OmegaException("Please provide me with a valid task number.");
+        }
+        if (index < 0 || index >= tasks.size()) {
+            throw new OmegaException("Unfortunately, that task number does not exist.");
+        }
+
+        return index;
+    }
 }
+
+
