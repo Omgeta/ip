@@ -26,7 +26,12 @@ public class Omega {
         while(isRunning) {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
-            isRunning = handleCommand(input);
+            try {
+                isRunning = handleCommand(input);
+            } catch(OmegaException e) {
+                printWrapped(e.getMessage());
+                isRunning = true;
+            }
         }
 
         printWrapped("Au revoir!");
@@ -40,9 +45,10 @@ public class Omega {
         System.out.println(LINE);
     }
 
-    public static boolean handleCommand(String input) {
+    public static boolean handleCommand(String input) throws OmegaException {
         input = input.trim();
-        if (input.isEmpty()) return true;
+        if (input.isEmpty())
+            throw new OmegaException("Please give me a specific command.");
 
         String[] parts = input.split("\\s+", 2);
         String command = parts[0].toLowerCase();
@@ -63,22 +69,15 @@ public class Omega {
                 yield true;
             }
             case "todo", "event", "deadline" -> {
-                try {
-                    Task t = createTask(command, args);
-                    addTask(t);
-                } catch (IllegalArgumentException e) {
-                    printWrapped(e.getMessage());
-                }
+                Task t = createTask(command, args);
+                addTask(t);
                 yield true;
             }
-            default -> {
-                printWrapped("Sorry, your command doesn't seem to make very much sense.");
-                yield true;
-            }
+            default -> throw new OmegaException("Sorry, your command doesn't seem to make very much sense.");
         };
     }
 
-    private static Task createTask(String command, String args) {
+    private static Task createTask(String command, String args) throws OmegaException {
         return switch (command) {
             case "todo" -> parseTodo(args);
             case "deadline" -> parseDeadline(args);
@@ -87,45 +86,45 @@ public class Omega {
         };
     }
 
-    private static Task parseTodo(String description) {
+    private static Task parseTodo(String description) throws OmegaException {
         if (description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Usage: todo <description>");
+            throw new OmegaException("Usage: todo <description>");
         }
         return new Todo(description);
     }
 
-    private static Task parseDeadline(String args) {
+    private static Task parseDeadline(String args) throws OmegaException {
         String[] parts = args.split("\\s+/by\\s+", 2);
         if (parts.length < 2) {
-            throw new IllegalArgumentException("Usage: deadline <description> /by <by>");
+            throw new OmegaException("Usage: deadline <description> /by <by>");
         }
 
         String description = parts[0].trim();
         String by = parts[1].trim();
         if (description.isEmpty() || by.isEmpty()) {
-            throw new IllegalArgumentException("Usage: deadline <description> /by <by>");
+            throw new OmegaException("Usage: deadline <description> /by <by>");
         }
 
         return new Deadline(description, by);
     }
 
-    private static Task parseEvent(String args) {
+    private static Task parseEvent(String args) throws OmegaException {
         String[] first = args.split("\\s+/from\\s+", 2);
         if (first.length < 2) {
-            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+            throw new OmegaException("Usage: event <description> /from <from> /to <to>");
         }
 
         String description = first[0].trim();
         String rest = first[1].trim();
         String[] second = rest.split("\\s+/to\\s+", 2);
         if (second.length < 2) {
-            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+            throw new OmegaException("Usage: event <description> /from <from> /to <to>");
         }
 
         String from = second[0].trim();
         String to = second[1].trim();
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
-            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+            throw new OmegaException("Usage: event <description> /from <from> /to <to>");
         }
 
         return new Event(description, from, to);
@@ -154,29 +153,29 @@ public class Omega {
         );
     }
 
-    private static void handleMarking(String args, boolean isDone) {
+    private static void handleMarking(String args, boolean isDone) throws OmegaException {
         if (args.isEmpty()) {
-            printWrapped("Usage: mark N | unmark N");
-            return;
+            throw new OmegaException("Usage: mark N | unmark N");
         }
 
         int taskNumber;
         try {
             taskNumber = Integer.parseInt(args) - 1;
-            if (taskNumber < 0 || taskNumber >= tasks.size())
-                throw new NumberFormatException("Out of bounds");
+
         } catch (NumberFormatException e) {
-            printWrapped("Provide valid task list number");
-            return;
+            throw new OmegaException("Provide valid task list number");
         }
+
+        if (taskNumber < 0 || taskNumber >= tasks.size())
+            throw new OmegaException("Out of bounds");
 
         Task t = tasks.get(taskNumber);
         if (isDone) {
             t.markDone();
-            printWrapped("Nice! I've marked this task as done:", "  " + t);
+            printWrapped("I've marked this task as done:", "  " + t);
         } else {
             t.unmarkDone();
-            printWrapped("OK, I've marked this task as not done yet:", " " + t);
+            printWrapped("I've marked this task as not done yet:", " " + t);
         }
     }
 }
