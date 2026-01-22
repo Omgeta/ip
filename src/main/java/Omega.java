@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class Omega {
     private static final String LINE = "____________________________________________________________";
     private static final String LOGO = """
-                  ___  _ __ ___   ___  __ _  __ _ 
+                  ___  _ __ ___   ___  __ _  __ _
                  / _ \\| '_ ` _ \\ / _ \\/ _` |/ _` |
                 | (_) | | | | | |  __/ (_| | (_| |
                  \\___/|_| |_| |_|\\___|\\__, |\\__,_|
-                                       __/ |      
-                                      |___/       
+                                       __/ |
+                                      |___/
                 """;
     private static final List<Task> tasks = new ArrayList<>();
 
@@ -48,24 +48,89 @@ public class Omega {
         String command = parts[0].toLowerCase();
         String args = (parts.length == 2) ? parts[1].trim() : "";
 
-        switch (command) {
-            case "bye":
-                return false;
-            case "list":
+        return switch (command) {
+            case "bye" -> false;
+            case "list" -> {
                 printTaskList();
-                return true;
-            case "mark":
+                yield true;
+            }
+            case "mark" -> {
                 handleMarking(args, true);
-                return true;
-            case "unmark":
+                yield true;
+            }
+            case "unmark" -> {
                 handleMarking(args, false);
-                return true;
-            default:
-                tasks.add(new Task(input));
-                printWrapped("added: " + input);
-                return true;
-        }
+                yield true;
+            }
+            case "todo", "event", "deadline" -> {
+                try {
+                    Task t = createTask(command, args);
+                    addTask(t);
+                } catch (IllegalArgumentException e) {
+                    printWrapped(e.getMessage());
+                }
+                yield true;
+            }
+            default -> {
+                printWrapped("Sorry, your command doesn't seem to make very much sense.");
+                yield true;
+            }
+        };
     }
+
+    private static Task createTask(String command, String args) {
+        return switch (command) {
+            case "todo" -> parseTodo(args);
+            case "deadline" -> parseDeadline(args);
+            case "event" -> parseEvent(args);
+            default -> null; // won't ever hit this path
+        };
+    }
+
+    private static Task parseTodo(String description) {
+        if (description.trim().isEmpty()) {
+            throw new IllegalArgumentException("Usage: todo <description>");
+        }
+        return new Todo(description);
+    }
+
+    private static Task parseDeadline(String args) {
+        String[] parts = args.split("\\s+/by\\s+", 2);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Usage: deadline <description> /by <by>");
+        }
+
+        String description = parts[0].trim();
+        String by = parts[1].trim();
+        if (description.isEmpty() || by.isEmpty()) {
+            throw new IllegalArgumentException("Usage: deadline <description> /by <by>");
+        }
+
+        return new Deadline(description, by);
+    }
+
+    private static Task parseEvent(String args) {
+        String[] first = args.split("\\s+/from\\s+", 2);
+        if (first.length < 2) {
+            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+        }
+
+        String description = first[0].trim();
+        String rest = first[1].trim();
+        String[] second = rest.split("\\s+/to\\s+", 2);
+        if (second.length < 2) {
+            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+        }
+
+        String from = second[0].trim();
+        String to = second[1].trim();
+        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            throw new IllegalArgumentException("Usage: event <description> /from <from> /to <to>");
+        }
+
+        return new Event(description, from, to);
+    }
+
 
     public static void printTaskList() {
         if (tasks.isEmpty()) {
@@ -78,6 +143,15 @@ public class Omega {
             lines[i] = (i+1) + "." + tasks.get(i);
         }
         printWrapped(lines);
+    }
+
+    private static void addTask(Task task) {
+        tasks.add(task);
+        printWrapped(
+            "As requested, I've added the task:",
+            "  " + task,
+            "Now you have " + tasks.size() + " tasks in the list."
+        );
     }
 
     private static void handleMarking(String args, boolean isDone) {
