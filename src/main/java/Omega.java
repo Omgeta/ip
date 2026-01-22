@@ -42,22 +42,29 @@ public class Omega {
 
     public static boolean handleCommand(String input) {
         input = input.trim();
-        if (input.equalsIgnoreCase("bye")) {
-            return false;
-        }
+        if (input.isEmpty()) return true;
 
-        if (input.equalsIgnoreCase("list")) {
-            printTaskList();
-            return true;
-        }
+        String[] parts = input.split("\\s+", 2);
+        String command = parts[0].toLowerCase();
+        String args = (parts.length == 2) ? parts[1].trim() : "";
 
-        if (!input.isEmpty()) {
-            tasks.add(new Task(input));
-            printWrapped("added: " + input);
-            return true;
+        switch (command) {
+            case "bye":
+                return false;
+            case "list":
+                printTaskList();
+                return true;
+            case "mark":
+                handleMarking(args, true);
+                return true;
+            case "unmark":
+                handleMarking(args, false);
+                return true;
+            default:
+                tasks.add(new Task(input));
+                printWrapped("added: " + input);
+                return true;
         }
-
-        return true;
     }
 
     public static void printTaskList() {
@@ -68,8 +75,34 @@ public class Omega {
 
         String[] lines = new String[tasks.size()];
         for (int i = 0; i < tasks.size(); i++) {
-            lines[i] = (i+1) + ". " + tasks.get(i);
+            lines[i] = (i+1) + "." + tasks.get(i);
         }
         printWrapped(lines);
+    }
+
+    private static void handleMarking(String args, boolean isDone) {
+        if (args.isEmpty()) {
+            printWrapped("Usage: mark N | unmark N");
+            return;
+        }
+
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(args) - 1;
+            if (taskNumber < 0 || taskNumber >= tasks.size())
+                throw new NumberFormatException("Out of bounds");
+        } catch (NumberFormatException e) {
+            printWrapped("Provide valid task list number");
+            return;
+        }
+
+        Task t = tasks.get(taskNumber);
+        if (isDone) {
+            t.markDone();
+            printWrapped("Nice! I've marked this task as done:", "  " + t);
+        } else {
+            t.unmarkDone();
+            printWrapped("OK, I've marked this task as not done yet:", " " + t);
+        }
     }
 }
