@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Omega {
@@ -10,6 +12,7 @@ public class Omega {
                                        __/ |      
                                       |___/       
                 """;
+    private static final List<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         printWrapped(
@@ -19,14 +22,11 @@ public class Omega {
         );
 
         Scanner scanner = new Scanner(System.in);
-        while(true) {
+        boolean isRunning = true;
+        while(isRunning) {
             System.out.print("> ");
-            String command = scanner.nextLine().trim();
-            if (command.equalsIgnoreCase("bye")) {
-                break;
-            }
-
-            printWrapped(command);
+            String input = scanner.nextLine().trim();
+            isRunning = handleCommand(input);
         }
 
         printWrapped("Au revoir!");
@@ -38,5 +38,38 @@ public class Omega {
             System.out.println(msg);
         }
         System.out.println(LINE);
+    }
+
+    public static boolean handleCommand(String input) {
+        input = input.trim();
+        if (input.equalsIgnoreCase("bye")) {
+            return false;
+        }
+
+        if (input.equalsIgnoreCase("list")) {
+            printTaskList();
+            return true;
+        }
+
+        if (!input.isEmpty()) {
+            tasks.add(new Task(input));
+            printWrapped("added: " + input);
+            return true;
+        }
+
+        return true;
+    }
+
+    public static void printTaskList() {
+        if (tasks.isEmpty()) {
+            printWrapped("Task list empty.");
+            return;
+        }
+
+        String[] lines = new String[tasks.size()];
+        for (int i = 0; i < tasks.size(); i++) {
+            lines[i] = (i+1) + ". " + tasks.get(i);
+        }
+        printWrapped(lines);
     }
 }
