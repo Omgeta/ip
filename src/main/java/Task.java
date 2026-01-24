@@ -1,8 +1,14 @@
-import java.util.Collections;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class Task {
+    public static final DateTimeFormatter OUT_PATTERN = DateTimeFormatter.ofPattern("MMM d yyyy");
+    public static final DateTimeFormatter SAVE_PATTERN = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     protected String description;
     protected boolean isDone;
 
@@ -19,11 +25,27 @@ public abstract class Task {
         this.isDone = false;
     }
 
-    protected abstract TaskType getType();
+    protected static LocalDate parseDate(String dtString) throws OmegaException {
+        try {
+            return LocalDate.parse(dtString);
+        } catch (DateTimeParseException e) {
+            throw new OmegaException("Failed to parse date: " + e.getMessage());
+        }
+    }
+
+    protected static String serializableDate(LocalDate date) {
+        return date.format(Task.SAVE_PATTERN);
+    }
+
+    protected static String displayDate(LocalDate date) {
+        return date.format(Task.OUT_PATTERN);
+    }
 
     protected String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
+
+    protected abstract TaskType getType();
 
     protected abstract Map<String, String> getExtraSerializationFields();
 
