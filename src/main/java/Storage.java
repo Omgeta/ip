@@ -32,7 +32,9 @@ public class Storage {
                 }
             }
         } catch(IOException e) {
-            throw new OmegaException("Failed to read the save file correctly: " + e.getMessage());
+            throw new OmegaException("Failed to read the save file: " + e.getMessage());
+        } catch (OmegaException e) {
+            throw new OmegaException("Failed to read corrupted save file: " + e.getMessage());
         }
     }
 

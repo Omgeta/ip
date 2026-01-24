@@ -1,12 +1,13 @@
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Deadline extends Task {
-    protected String by;
+    protected LocalDate by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws OmegaException {
         super(description);
-        this.by = by;
+        this.by = Task.parseDate(by);
     }
 
     @Override
@@ -17,13 +18,13 @@ public class Deadline extends Task {
     @Override
     protected Map<String, String> getExtraSerializationFields() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("by", by);
+        map.put("by", Task.serializableDate(by));
         return map;
     }
 
 
     @Override
     public String toString() {
-        return super.toString() + " (by: " + by + ")";
+        return super.toString() + " (by: " + Task.displayDate(by) + ")";
     }
 }
