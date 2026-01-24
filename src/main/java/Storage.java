@@ -25,12 +25,14 @@ public class Storage {
                     String[] entry = line.split("=", 2);
                     block.put(entry[0], entry[1]);
                 } else { // at an empty line splitting tasks
-                    tasks.add(parseBlock(block));
+                    Task t = parseBlock(block);
+                    if (t != null)
+                        tasks.add(t);
                     block.clear();
                 }
             }
         } catch(IOException e) {
-            throw new OmegaException("Failed to read the save file.");
+            throw new OmegaException("Failed to read the save file correctly: " + e.getMessage());
         }
     }
 
@@ -59,19 +61,29 @@ public class Storage {
         String done = block.get("done");
         String desc = block.get("desc");
 
+        if (done == null || desc == null)
+            throw new OmegaException("Failed to read done and description fields");
+
         Task t;
         switch (type) {
             case TODO:
                 t = new Todo(desc);
                 break;
             case DEADLINE:
-                t = new Deadline(desc, block.get("by"));
+                String by = block.get("by");
+                if (by.trim().isEmpty())
+                    throw new OmegaException("Failed to read by field");
+                t = new Deadline(desc, by);
                 break;
             case EVENT:
+                String from = block.get("from");
+                String to = block.get("to");
+                if (from.trim().isEmpty() || to.trim().isEmpty())
+                    throw new OmegaException("Failed to read from or to fields");
                 t = new Event(desc, block.get("from"), block.get("to"));
                 break;
             default:
-                return null;
+                return null; // won't hit this path
         }
 
         if ("1".equals(done.trim())) t.markDone();
