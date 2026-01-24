@@ -19,7 +19,7 @@ public abstract class Task {
         this.isDone = false;
     }
 
-    protected abstract String getTypePrefix();
+    protected abstract TaskType getType();
 
     protected String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
@@ -29,7 +29,7 @@ public abstract class Task {
 
     public final Map<String, String> toSerializationMap() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("type", getTypePrefix());
+        map.put("type", getType().code());
         map.put("done", isDone ? "1" : "0");
         map.put("desc", description);
         map.putAll(getExtraSerializationFields());
@@ -38,6 +38,6 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return "[" + getTypePrefix() + "]" + "[" + getStatusIcon() + "] " + this.description;
+        return "[" + getType().code() + "]" + "[" + getStatusIcon() + "] " + this.description;
     }
 }

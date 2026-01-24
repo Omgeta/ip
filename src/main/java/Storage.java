@@ -52,22 +52,22 @@ public class Storage {
         }
     }
 
-    private static Task parseBlock(Map<String, String> block) {
+    private static Task parseBlock(Map<String, String> block) throws OmegaException {
         if (block.isEmpty()) return null;
 
-        String type = block.get("type");
+        TaskType type = TaskType.fromCode(block.get("type"));
         String done = block.get("done");
         String desc = block.get("desc");
 
         Task t;
         switch (type) {
-            case "T":
+            case TODO:
                 t = new Todo(desc);
                 break;
-            case "D":
+            case DEADLINE:
                 t = new Deadline(desc, block.get("by"));
                 break;
-            case "E":
+            case EVENT:
                 t = new Event(desc, block.get("from"), block.get("to"));
                 break;
             default:

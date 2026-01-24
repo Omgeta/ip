@@ -8,8 +8,8 @@ public class Todo extends Task {
     }
 
     @Override
-    protected String getTypePrefix() {
-        return "T";
+    protected TaskType getType() {
+        return TaskType.TODO;
     }
 
     @Override
