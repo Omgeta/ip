@@ -1,3 +1,6 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Event extends Task {
     protected String from;
     protected String to;
@@ -9,7 +12,20 @@ public class Event extends Task {
     }
 
     @Override
+    protected String getTypePrefix() {
+        return "E";
+    }
+
+    @Override
+    protected Map<String, String> getExtraSerializationFields() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("from", from);
+        map.put("to", to);
+        return map;
+    }
+
+    @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return super.toString() + " (from: " + from + " to: " + to + ")";
     }
 }
