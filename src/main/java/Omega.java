@@ -1,3 +1,5 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +14,7 @@ public class Omega {
                                        __/ |
                                       |___/
                 """;
+    private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private static final List<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -22,6 +25,15 @@ public class Omega {
         );
 
         Scanner scanner = new Scanner(System.in);
+
+        Storage storage = new Storage(FILE_PATH);
+        try {
+            storage.load(tasks);
+        } catch(OmegaException e) {
+            printWrapped(e.getMessage());
+            tasks.clear();
+        }
+
         boolean isRunning = true;
         while(isRunning) {
             System.out.print("> ");
@@ -30,8 +42,13 @@ public class Omega {
                 isRunning = handleCommand(input);
             } catch(OmegaException e) {
                 printWrapped(e.getMessage());
-                isRunning = true;
             }
+        }
+
+        try {
+            storage.save(tasks);
+        } catch (OmegaException e) {
+            printWrapped(e.getMessage());
         }
 
         printWrapped("Au revoir!");

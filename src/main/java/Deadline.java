@@ -1,3 +1,6 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Deadline extends Task {
     protected String by;
 
@@ -7,7 +10,20 @@ public class Deadline extends Task {
     }
 
     @Override
+    protected TaskType getType() {
+        return TaskType.DEADLINE;
+    }
+
+    @Override
+    protected Map<String, String> getExtraSerializationFields() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("by", by);
+        return map;
+    }
+
+
+    @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return super.toString() + " (by: " + by + ")";
     }
 }
