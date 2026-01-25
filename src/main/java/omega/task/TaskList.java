@@ -37,6 +37,18 @@ public record TaskList(List<Task> tasks) {
         return t;
     }
 
+    public TaskList find(String keyword) {
+        keyword = keyword.toLowerCase();
+        TaskList matches = new TaskList();
+
+        for (Task t : tasks) {
+            if (t.description.toLowerCase().contains(keyword)) {
+                matches.add(t);
+            }
+        }
+        return matches;
+    }
+
     public boolean isEmpty() {
         return tasks.isEmpty();
     }

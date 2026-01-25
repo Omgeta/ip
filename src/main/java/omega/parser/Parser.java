@@ -5,6 +5,7 @@ import omega.command.AddCommand;
 import omega.command.Command;
 import omega.command.DeleteCommand;
 import omega.command.ExitCommand;
+import omega.command.FindCommand;
 import omega.command.ListCommand;
 import omega.command.MarkCommand;
 import omega.command.UnmarkCommand;
@@ -31,6 +32,7 @@ public class Parser {
         case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
         case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
         case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
+        case "find" -> cmd = new FindCommand(parseKeyword(args));
 
         case "todo" -> cmd = new AddCommand(parseTodo(args));
         case "deadline" -> cmd = new AddCommand(parseDeadline(args));
@@ -40,6 +42,13 @@ public class Parser {
         }
 
         return cmd;
+    }
+
+    private static String parseKeyword(String args) throws OmegaException {
+        if (args.isEmpty()) {
+            throw new OmegaException("Usage: find <keyword>");
+        }
+        return args;
     }
 
     private static int parseIndex(String args, String cmd) throws OmegaException {
