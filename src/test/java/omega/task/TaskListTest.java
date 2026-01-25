@@ -9,8 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import omega.OmegaException;
 
+/**
+ * Test class for TaskList.
+ */
 public class TaskListTest {
-
+    /**
+     * Tests that adding tasks updates the size and isEmpty status correctly.
+     */
     @Test
     public void addAndSize_validTask_addsTasksAndUpdatesSize() {
         TaskList list = new TaskList();
@@ -24,6 +29,11 @@ public class TaskListTest {
         assertFalse(list.isEmpty());
     }
 
+    /**
+     * Tests that marking and unmarking tasks toggles their done state.
+     * 
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void markAndUnmark_validTask_togglesDoneState() throws Exception {
         TaskList list = new TaskList();
@@ -36,6 +46,9 @@ public class TaskListTest {
         assertTrue(unmarked.toString().contains("[ ]"));
     }
 
+    /**
+     * Tests that marking a task with an out-of-bounds index throws OmegaException.
+     */
     @Test
     public void mark_outOfBounds_throwsException() {
         TaskList list = new TaskList();
@@ -45,6 +58,10 @@ public class TaskListTest {
         assertThrows(OmegaException.class, () -> list.mark(1));
     }
 
+    /**
+     * Tests that unmarking a task with an out-of-bounds index throws
+     * OmegaException.
+     */
     @Test
     public void delete_validTask_removesAndShiftsRemaining() throws Exception {
         TaskList list = new TaskList();
@@ -60,6 +77,9 @@ public class TaskListTest {
         assertTrue(list.toList().get(1).toString().contains("buy bread"));
     }
 
+    /**
+     * Tests that toString method enumerates tasks correctly.
+     */
     @Test
     public void toString_validTasks_enumeratesTasks() {
         TaskList list = new TaskList();

@@ -6,10 +6,21 @@ import java.util.Map;
 
 import omega.OmegaException;
 
+/**
+ * Represents an event task with a description, start date, and end date.
+ */
 public class Event extends Task {
     protected LocalDate from;
     protected LocalDate to;
 
+    /**
+     * Constructs an Event task with the specified description, start and end date.
+     *
+     * @param description Description of the event task.
+     * @param from        Start date of the event task in string format.
+     * @param to          End date of the event task in string format.
+     * @throws OmegaException If the date format is invalid.
+     */
     public Event(String description, String from, String to) throws OmegaException {
         super(description);
         this.from = Task.parseDate(from);

@@ -18,11 +18,20 @@ import omega.task.Task;
 import omega.task.TaskList;
 import omega.task.Todo;
 
+/**
+ * Test class for Storage.
+ */
 public class StorageTest {
 
     @TempDir
     Path tempDir;
 
+    /**
+     * Tests that loading from a non-existent file creates the file and returns an
+     * empty task list.
+     * 
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void load_fileDoesNotExist_createsFileAndLoadsEmpty() throws Exception {
         Path dataDir = tempDir.resolve("data");
@@ -37,6 +46,11 @@ public class StorageTest {
         assertEquals(0, tasks.size());
     }
 
+    /**
+     * Tests that saving and then loading tasks preserves their state.
+     * 
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void saveThenLoad_addValidTasks_preservesTaskState() throws Exception {
         Path file = tempDir.resolve("tasks.txt");
@@ -61,6 +75,11 @@ public class StorageTest {
         }
     }
 
+    /**
+     * Tests that loading from a file with an unknown task type throws.
+     * 
+     * @throws Exception If an error occurs during the test.
+     */
     @Test
     public void load_unknownType_throwsException() throws Exception {
         Path file = tempDir.resolve("tasks.txt");

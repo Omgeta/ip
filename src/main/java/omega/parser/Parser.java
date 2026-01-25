@@ -13,7 +13,17 @@ import omega.task.Event;
 import omega.task.Task;
 import omega.task.Todo;
 
+/**
+ * Parses user input strings into corresponding Command objects.
+ */
 public class Parser {
+    /**
+     * Parses the given input string and returns the corresponding Command object.
+     *
+     * @param input User input string.
+     * @return Corresponding Command object.
+     * @throws OmegaException If the input is invalid or cannot be parsed.
+     */
     public static Command parse(String input) throws OmegaException {
         if (input == null || input.trim().isEmpty()) {
             throw new OmegaException("Please enter a command.");
@@ -25,18 +35,18 @@ public class Parser {
 
         Command cmd;
         switch (cmdCode) {
-        case "bye" -> cmd = new ExitCommand();
-        case "list" -> cmd = new ListCommand();
+            case "bye" -> cmd = new ExitCommand();
+            case "list" -> cmd = new ListCommand();
 
-        case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
-        case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
-        case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
+            case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
+            case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
+            case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
 
-        case "todo" -> cmd = new AddCommand(parseTodo(args));
-        case "deadline" -> cmd = new AddCommand(parseDeadline(args));
-        case "event" -> cmd = new AddCommand(parseEvent(args));
+            case "todo" -> cmd = new AddCommand(parseTodo(args));
+            case "deadline" -> cmd = new AddCommand(parseDeadline(args));
+            case "event" -> cmd = new AddCommand(parseEvent(args));
 
-        default -> throw new OmegaException("I don't understand that command.");
+            default -> throw new OmegaException("I don't understand that command.");
         }
 
         return cmd;

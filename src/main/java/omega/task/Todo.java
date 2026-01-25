@@ -2,9 +2,17 @@ package omega.task;
 
 import java.util.Map;
 
-public class Todo extends Task {
-    private static final String TYPE_PREFIX = "T";
+import omega.OmegaException;
 
+/**
+ * Represents a todo task with a description.
+ */
+public class Todo extends Task {
+    /**
+     * Constructs a Todo task with the specified description.
+     *
+     * @param description Description of the todo task.
+     */
     public Todo(String description) {
         super(description);
     }
