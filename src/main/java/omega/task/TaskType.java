@@ -2,6 +2,9 @@ package omega.task;
 
 import omega.OmegaException;
 
+/**
+ * Enum representing the different types of tasks.
+ */
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
@@ -13,6 +16,13 @@ public enum TaskType {
         this.code = code;
     }
 
+    /**
+     * Returns the TaskType corresponding to the given code.
+     *
+     * @param code Code representing the task type.
+     * @return Corresponding TaskType.
+     * @throws OmegaException If the code does not match any TaskType.
+     */
     public static TaskType fromCode(String code) throws OmegaException {
         for (TaskType t : values()) {
             if (t.code.equals(code)) {

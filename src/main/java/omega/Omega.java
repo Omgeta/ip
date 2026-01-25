@@ -9,12 +9,20 @@ import omega.storage.Storage;
 import omega.task.TaskList;
 import omega.ui.Ui;
 
+/**
+ * Main class for the Omega application.
+ */
 public class Omega {
     private static final Path FILE_PATH = Paths.get("data", "tasks.txt");
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
 
+    /**
+     * Constructs the Omega application with the specified file path for storage.
+     *
+     * @param filePath Path to the file where tasks are stored.
+     */
     public Omega(Path filePath) {
         TaskList loaded;
         this.ui = new Ui();
@@ -28,10 +36,18 @@ public class Omega {
         this.tasks = loaded;
     }
 
+    /**
+     * Main method to start the Omega application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Omega(FILE_PATH).run();
     }
 
+    /**
+     * Runs the main loop of the Omega application.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -52,5 +68,3 @@ public class Omega {
     }
 
 }
-
-

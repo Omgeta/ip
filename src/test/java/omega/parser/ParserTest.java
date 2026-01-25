@@ -14,20 +14,28 @@ import omega.command.ListCommand;
 import omega.command.MarkCommand;
 import omega.command.UnmarkCommand;
 
+/**
+ * Test class for Parser.
+ */
 public class ParserTest {
+    /**
+     * Tests that valid command inputs are parsed into the expected Command types.
+     * 
+     * @throws Exception If parsing fails unexpectedly.
+     */
     @Test
     public void parse_validCommandInput_returnsExpectedCommandType() throws Exception {
         Object[][] cases = {
-                {"bye", ExitCommand.class},
-                {"list", ListCommand.class},
+                { "bye", ExitCommand.class },
+                { "list", ListCommand.class },
 
-                {"mark 1", MarkCommand.class},
-                {"unmark 1", UnmarkCommand.class},
-                {"delete 1", DeleteCommand.class},
+                { "mark 1", MarkCommand.class },
+                { "unmark 1", UnmarkCommand.class },
+                { "delete 1", DeleteCommand.class },
 
-                {"todo borrow book", AddCommand.class},
-                {"deadline return book /by 2019-10-15", AddCommand.class},
-                {"event project meeting /from 2019-10-15 /to 2019-10-16", AddCommand.class}
+                { "todo borrow book", AddCommand.class },
+                { "deadline return book /by 2019-10-15", AddCommand.class },
+                { "event project meeting /from 2019-10-15 /to 2019-10-16", AddCommand.class }
         };
 
         for (Object[] c : cases) {
@@ -40,37 +48,61 @@ public class ParserTest {
         }
     }
 
+    /**
+     * Tests that the "bye" command is recognized as an exit command.
+     * 
+     * @throws Exception
+     */
     @Test
     public void parse_bye_isExit() throws Exception {
         Command cmd = Parser.parse("bye");
         assertTrue(cmd.isExit());
     }
 
+    /**
+     * Tests that invalid command inputs throw OmegaException.
+     */
     @Test
     public void parse_emptyInput_throwsException() {
         assertThrows(OmegaException.class, () -> Parser.parse(" "));
     }
 
+    /**
+     * Tests that unrecognized commands throw OmegaException.
+     */
     @Test
     public void parse_invalidCommand_throwsException() {
         assertThrows(OmegaException.class, () -> Parser.parse("foo"));
     }
 
+    /**
+     * Tests that missing index for commands that require an index throw
+     * OmegaException.
+     */
     @Test
     public void parse_missingIndex_throwsException() {
         assertThrows(OmegaException.class, () -> Parser.parse("mark"));
     }
 
+    /**
+     * Tests that non-numeric index for commands that require an index throw
+     */
     @Test
     public void parse_nonNumericIndex_throwsException() {
         assertThrows(OmegaException.class, () -> Parser.parse("mark abc"));
     }
 
+    /**
+     * Tests that missing description for todo command throws OmegaException.
+     */
     @Test
     public void parse_deadlineMissingBy_throwsException() {
         assertThrows(OmegaException.class, () -> Parser.parse("deadline return book"));
     }
 
+    /**
+     * Tests that missing description or date for deadline command throws.
+     */
     @Test
     public void parse_eventMissingFromTo_throwsException() {
         String[] invalidInputs = {

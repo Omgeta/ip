@@ -16,9 +16,17 @@ import omega.task.TaskList;
 import omega.task.TaskType;
 import omega.task.Todo;
 
+/**
+ * Handles storage of tasks to and from a file.
+ */
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Constructs a Storage handler with the specified file path.
+     *
+     * @param filePath Path to the storage file.
+     */
     public Storage(Path filePath) {
         this.filePath = filePath;
     }
@@ -38,26 +46,26 @@ public class Storage {
 
         Task t;
         switch (type) {
-        case TODO:
-            t = new Todo(desc);
-            break;
-        case DEADLINE:
-            String by = block.get("by");
-            if (by == null) {
-                throw new OmegaException("Failed to read by field");
-            }
-            t = new Deadline(desc, by);
-            break;
-        case EVENT:
-            String from = block.get("from");
-            String to = block.get("to");
-            if (from == null || to == null) {
-                throw new OmegaException("Failed to read from or to fields");
-            }
-            t = new Event(desc, block.get("from"), block.get("to"));
-            break;
-        default:
-            return null; // won't hit this path
+            case TODO:
+                t = new Todo(desc);
+                break;
+            case DEADLINE:
+                String by = block.get("by");
+                if (by == null) {
+                    throw new OmegaException("Failed to read by field");
+                }
+                t = new Deadline(desc, by);
+                break;
+            case EVENT:
+                String from = block.get("from");
+                String to = block.get("to");
+                if (from == null || to == null) {
+                    throw new OmegaException("Failed to read from or to fields");
+                }
+                t = new Event(desc, block.get("from"), block.get("to"));
+                break;
+            default:
+                return null; // won't hit this path
         }
 
         if ("1".equals(done.trim())) {
@@ -66,6 +74,12 @@ public class Storage {
         return t;
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return List of tasks loaded from the file.
+     * @throws OmegaException If an error occurs during loading.
+     */
     public List<Task> load() throws OmegaException {
         ensureFileExists();
 
@@ -95,6 +109,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given task list to the storage file.
+     *
+     * @param tasks Task list to be saved.
+     * @throws OmegaException If an error occurs during saving.
+     */
     public void save(TaskList tasks) throws OmegaException {
         ensureFileExists();
 
