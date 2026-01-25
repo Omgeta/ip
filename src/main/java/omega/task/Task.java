@@ -1,12 +1,12 @@
 package omega.task;
 
-import omega.OmegaException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import omega.OmegaException;
 
 public abstract class Task {
     public static final DateTimeFormatter OUT_PATTERN = DateTimeFormatter.ofPattern("MMM d yyyy");

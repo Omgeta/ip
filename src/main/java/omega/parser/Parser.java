@@ -20,23 +20,26 @@ public class Parser {
         }
 
         String[] parts = input.trim().split("\\s+", 2);
-        String cmd = parts[0].toLowerCase();
+        String cmdCode = parts[0].toLowerCase();
         String args = (parts.length == 2) ? parts[1].trim() : "";
 
-        return switch (cmd) {
-            case "bye" -> new ExitCommand();
-            case "list" -> new ListCommand();
+        Command cmd;
+        switch (cmdCode) {
+        case "bye" -> cmd = new ExitCommand();
+        case "list" -> cmd = new ListCommand();
 
-            case "mark" -> new MarkCommand(parseIndex(args, "mark"));
-            case "unmark" -> new UnmarkCommand(parseIndex(args, "unmark"));
-            case "delete" -> new DeleteCommand(parseIndex(args, "delete"));
+        case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
+        case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
+        case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
 
-            case "todo" -> new AddCommand(parseTodo(args));
-            case "deadline" -> new AddCommand(parseDeadline(args));
-            case "event" -> new AddCommand(parseEvent(args));
+        case "todo" -> cmd = new AddCommand(parseTodo(args));
+        case "deadline" -> cmd = new AddCommand(parseDeadline(args));
+        case "event" -> cmd = new AddCommand(parseEvent(args));
 
-            default -> throw new OmegaException("I don't understand that command.");
-        };
+        default -> throw new OmegaException("I don't understand that command.");
+        }
+
+        return cmd;
     }
 
     private static int parseIndex(String args, String cmd) throws OmegaException {
@@ -66,8 +69,12 @@ public class Parser {
         String desc = parts[0].trim();
         String by = parts[1].trim();
 
-        if (desc.isEmpty()) throw new OmegaException("The description of a deadline cannot be empty.");
-        if (by.isEmpty()) throw new OmegaException("The /by part of a deadline cannot be empty.");
+        if (desc.isEmpty()) {
+            throw new OmegaException("The description of a deadline cannot be empty.");
+        }
+        if (by.isEmpty()) {
+            throw new OmegaException("The /by part of a deadline cannot be empty.");
+        }
 
         return new Deadline(desc, by); // if you did Level 8, call omega.task.Deadline.fromUserInput(desc, by)
     }
@@ -89,8 +96,12 @@ public class Parser {
         String from = second[0].trim();
         String to = second[1].trim();
 
-        if (desc.isEmpty()) throw new OmegaException("The description of an event cannot be empty.");
-        if (from.isEmpty() || to.isEmpty()) throw new OmegaException("omega.task.Event must have both /from and /to.");
+        if (desc.isEmpty()) {
+            throw new OmegaException("The description of an event cannot be empty.");
+        }
+        if (from.isEmpty() || to.isEmpty()) {
+            throw new OmegaException("omega.task.Event must have both /from and /to.");
+        }
 
         return new Event(desc, from, to);
     }

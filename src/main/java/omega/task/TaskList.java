@@ -1,9 +1,9 @@
 package omega.task;
 
-import omega.OmegaException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import omega.OmegaException;
 
 public record TaskList(List<Task> tasks) {
     public TaskList() {

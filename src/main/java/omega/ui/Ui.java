@@ -1,9 +1,9 @@
 package omega.ui;
 
+import java.util.Scanner;
+
 import omega.task.Task;
 import omega.task.TaskList;
-
-import java.util.Scanner;
 
 public class Ui {
     private static final String LINE = "____________________________________________________________";

@@ -1,13 +1,13 @@
 package omega;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import omega.command.Command;
 import omega.parser.Parser;
 import omega.storage.Storage;
 import omega.task.TaskList;
 import omega.ui.Ui;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Omega {
     private static final Path FILE_PATH = Paths.get("data", "tasks.txt");

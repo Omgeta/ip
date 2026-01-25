@@ -14,8 +14,11 @@ public enum TaskType {
     }
 
     public static TaskType fromCode(String code) throws OmegaException {
-        for (TaskType t : values())
-            if (t.code.equals(code)) return t;
+        for (TaskType t : values()) {
+            if (t.code.equals(code)) {
+                return t;
+            }
+        }
         throw new OmegaException("Unknown task type: " + code);
     }
 
