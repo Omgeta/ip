@@ -4,9 +4,17 @@ import omega.storage.Storage;
 import omega.task.TaskList;
 import omega.ui.Ui;
 
+/**
+ * Represents a command to list filtered tasks in the task list.
+ */
 public class FindCommand extends Command {
     private final String keyword;
 
+    /**
+     * Constructs a FindCommand with the specified keyword.
+     *
+     * @param keyword Keyword to filter tasks by.
+     */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }

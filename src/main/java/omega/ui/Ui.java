@@ -111,6 +111,12 @@ public class Ui {
         }
     }
 
+    /**
+     * Displays filtered list of tasks to the user.
+     *
+     * @param keyword Keyword filtered by
+     * @param tasks   The task list to be displayed.
+     */
     public void showFindList(String keyword, TaskList tasks) {
         if (tasks.isEmpty()) {
             System.out.println("Failed to find any matches for " + keyword);
