@@ -1,3 +1,18 @@
+package omega.parser;
+
+import omega.OmegaException;
+import omega.command.AddCommand;
+import omega.command.Command;
+import omega.command.DeleteCommand;
+import omega.command.ExitCommand;
+import omega.command.ListCommand;
+import omega.command.MarkCommand;
+import omega.command.UnmarkCommand;
+import omega.task.Deadline;
+import omega.task.Event;
+import omega.task.Task;
+import omega.task.Todo;
+
 public class Parser {
     public static Command parse(String input) throws OmegaException {
         if (input == null || input.trim().isEmpty()) {
@@ -31,7 +46,7 @@ public class Parser {
         try {
             return Integer.parseInt(args.trim()) - 1; // convert to 0-based
         } catch (NumberFormatException e) {
-            throw new OmegaException("Task number must be a number.");
+            throw new OmegaException("omega.task.Task number must be a number.");
         }
     }
 
@@ -54,7 +69,7 @@ public class Parser {
         if (desc.isEmpty()) throw new OmegaException("The description of a deadline cannot be empty.");
         if (by.isEmpty()) throw new OmegaException("The /by part of a deadline cannot be empty.");
 
-        return new Deadline(desc, by); // if you did Level 8, call Deadline.fromUserInput(desc, by)
+        return new Deadline(desc, by); // if you did Level 8, call omega.task.Deadline.fromUserInput(desc, by)
     }
 
     private static Task parseEvent(String args) throws OmegaException {
@@ -75,7 +90,7 @@ public class Parser {
         String to = second[1].trim();
 
         if (desc.isEmpty()) throw new OmegaException("The description of an event cannot be empty.");
-        if (from.isEmpty() || to.isEmpty()) throw new OmegaException("Event must have both /from and /to.");
+        if (from.isEmpty() || to.isEmpty()) throw new OmegaException("omega.task.Event must have both /from and /to.");
 
         return new Event(desc, from, to);
     }

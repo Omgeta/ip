@@ -1,7 +1,10 @@
+package omega.task;
+
+import omega.OmegaException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,14 +17,6 @@ public abstract class Task {
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
-    }
-
-    public void markDone() {
-        this.isDone = true;
-    }
-
-    public void unmarkDone() {
         this.isDone = false;
     }
 
@@ -39,6 +34,14 @@ public abstract class Task {
 
     protected static String displayDate(LocalDate date) {
         return date.format(Task.OUT_PATTERN);
+    }
+
+    public void markDone() {
+        this.isDone = true;
+    }
+
+    public void unmarkDone() {
+        this.isDone = false;
     }
 
     protected String getStatusIcon() {

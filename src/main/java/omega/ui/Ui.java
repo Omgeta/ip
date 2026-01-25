@@ -1,3 +1,8 @@
+package omega.ui;
+
+import omega.task.Task;
+import omega.task.TaskList;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -51,9 +56,9 @@ public class Ui {
 
     public void showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("Task list is empty");
+            System.out.println("omega.task.Task list is empty");
         } else {
-            System.out.println("Task list:\n" + tasks);
+            System.out.println("omega.task.Task list:\n" + tasks);
         }
     }
 }

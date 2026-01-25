@@ -1,3 +1,7 @@
+package omega.task;
+
+import omega.OmegaException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +62,7 @@ public record TaskList(List<Task> tasks) {
 
     private void ensureIndexExists(int index) throws OmegaException {
         if (index < 0 || index >= tasks.size()) {
-            throw new OmegaException("Task number out of bounds");
+            throw new OmegaException("omega.task.Task number out of bounds");
         }
     }
 }

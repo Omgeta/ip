@@ -1,3 +1,11 @@
+package omega;
+
+import omega.command.Command;
+import omega.parser.Parser;
+import omega.storage.Storage;
+import omega.task.TaskList;
+import omega.ui.Ui;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
