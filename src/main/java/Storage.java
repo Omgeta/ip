@@ -13,36 +13,74 @@ public class Storage {
         this.filePath = filePath;
     }
 
-    public void load(List<Task> tasks) throws OmegaException {
+    private static Task parseBlock(Map<String, String> block) throws OmegaException {
+        if (block.isEmpty()) return null;
+
+        String typeCode = block.get("type");
+        String done = block.get("done");
+        String desc = block.get("desc");
+        if (typeCode == null || done == null || desc == null)
+            throw new OmegaException("Failed to read core task fields");
+        TaskType type = TaskType.fromCode(typeCode);
+
+        Task t;
+        switch (type) {
+        case TODO:
+            t = new Todo(desc);
+            break;
+        case DEADLINE:
+            String by = block.get("by");
+            if (by == null)
+                throw new OmegaException("Failed to read by field");
+            t = new Deadline(desc, by);
+            break;
+        case EVENT:
+            String from = block.get("from");
+            String to = block.get("to");
+            if (from == null || to == null)
+                throw new OmegaException("Failed to read from or to fields");
+            t = new Event(desc, block.get("from"), block.get("to"));
+            break;
+        default:
+            return null; // won't hit this path
+        }
+
+        if ("1".equals(done.trim())) t.markDone();
+        return t;
+    }
+
+    public List<Task> load() throws OmegaException {
         ensureFileExists();
 
-        tasks.clear();
+        List<Task> tasks = new ArrayList<>();
         Map<String, String> block = new LinkedHashMap<>();
 
         try {
             for (String line : Files.readAllLines(this.filePath)) {
                 if (!line.trim().isEmpty()) {
                     String[] entry = line.split("=", 2);
-                    block.put(entry[0], entry[1]);
+                    if (entry.length < 2) continue; // skip corrupted line
+                    block.put(entry[0].trim(), entry[1]);
                 } else { // at an empty line splitting tasks
                     Task t = parseBlock(block);
-                    if (t != null)
-                        tasks.add(t);
+                    tasks.add(t);
                     block.clear();
                 }
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new OmegaException("Failed to read the save file: " + e.getMessage());
         } catch (OmegaException e) {
             throw new OmegaException("Failed to read corrupted save file: " + e.getMessage());
         }
+
+        return tasks;
     }
 
-    public void save(List<Task> tasks) throws OmegaException {
+    public void save(TaskList tasks) throws OmegaException {
         ensureFileExists();
 
         List<String> lines = new ArrayList<>();
-        for (Task t : tasks) {
+        for (Task t : tasks.toList()) {
             for (Map.Entry<String, String> e : t.toSerializationMap().entrySet()) {
                 lines.add(e.getKey() + "=" + e.getValue());
             }
@@ -54,42 +92,6 @@ public class Storage {
         } catch (IOException e) {
             throw new OmegaException("Failed to write to the save file.");
         }
-    }
-
-    private static Task parseBlock(Map<String, String> block) throws OmegaException {
-        if (block.isEmpty()) return null;
-
-        TaskType type = TaskType.fromCode(block.get("type"));
-        String done = block.get("done");
-        String desc = block.get("desc");
-
-        if (done == null || desc == null)
-            throw new OmegaException("Failed to read done and description fields");
-
-        Task t;
-        switch (type) {
-        case TODO:
-            t = new Todo(desc);
-            break;
-        case DEADLINE:
-            String by = block.get("by");
-            if (by.trim().isEmpty())
-                throw new OmegaException("Failed to read by field");
-            t = new Deadline(desc, by);
-            break;
-        case EVENT:
-            String from = block.get("from");
-            String to = block.get("to");
-            if (from.trim().isEmpty() || to.trim().isEmpty())
-                throw new OmegaException("Failed to read from or to fields");
-            t = new Event(desc, block.get("from"), block.get("to"));
-            break;
-        default:
-            return null; // won't hit this path
-        }
-
-        if ("1".equals(done.trim())) t.markDone();
-        return t;
     }
 
     private void ensureFileExists() throws OmegaException {
