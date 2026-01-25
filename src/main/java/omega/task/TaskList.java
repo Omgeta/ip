@@ -73,6 +73,23 @@ public record TaskList(List<Task> tasks) {
     }
 
     /**
+     * Returns filtered task list by keyword.
+     * 
+     * @return TaskList of filtered tasks.
+     */
+    public TaskList find(String keyword) {
+        keyword = keyword.toLowerCase();
+        TaskList matches = new TaskList();
+
+        for (Task t : tasks) {
+            if (t.description.toLowerCase().contains(keyword)) {
+                matches.add(t);
+            }
+        }
+        return matches;
+    }
+
+    /**
      * Checks if the task list is empty.
      * 
      * @return true if the task list is empty, false otherwise.

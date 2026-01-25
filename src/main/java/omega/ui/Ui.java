@@ -11,13 +11,13 @@ import omega.task.TaskList;
 public class Ui {
     private static final String LINE = "____________________________________________________________";
     private static final String LOGO = """
-              ___  _ __ ___   ___  __ _  __ _
-             / _ \\| '_ ` _ \\ / _ \\/ _` |/ _` |
-            | (_) | | | | | |  __/ (_| | (_| |
-             \\___/|_| |_| |_|\\___|\\__, |\\__,_|
-                                   __/ |
-                                  |___/
-            """;
+          ___  _ __ ___   ___  __ _  __ _
+         / _ \\| '_ ` _ \\ / _ \\/ _` |/ _` |
+        | (_) | | | | | |  __/ (_| | (_| |
+         \\___/|_| |_| |_|\\___|\\__, |\\__,_|
+                               __/ |
+                              |___/
+        """;
     private final Scanner scanner = new Scanner(System.in);
 
     /**
@@ -105,9 +105,17 @@ public class Ui {
      */
     public void showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("omega.task.Task list is empty");
+            System.out.println("Task list is empty");
         } else {
-            System.out.println("omega.task.Task list:\n" + tasks);
+            System.out.println("Task list:\n" + tasks);
+        }
+    }
+
+    public void showFindList(String keyword, TaskList tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println("Failed to find any matches for " + keyword);
+        } else {
+            System.out.println("Here are the matches for " + keyword + ":\n" + tasks);
         }
     }
 }

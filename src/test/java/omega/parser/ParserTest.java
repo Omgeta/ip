@@ -10,6 +10,7 @@ import omega.command.AddCommand;
 import omega.command.Command;
 import omega.command.DeleteCommand;
 import omega.command.ExitCommand;
+import omega.command.FindCommand;
 import omega.command.ListCommand;
 import omega.command.MarkCommand;
 import omega.command.UnmarkCommand;
@@ -32,6 +33,7 @@ public class ParserTest {
             {"mark 1", MarkCommand.class},
             {"unmark 1", UnmarkCommand.class},
             {"delete 1", DeleteCommand.class},
+            {"find keyword", FindCommand.class},
 
             {"todo borrow book", AddCommand.class},
             {"deadline return book /by 2019-10-15", AddCommand.class},

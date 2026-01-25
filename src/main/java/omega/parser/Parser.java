@@ -5,6 +5,7 @@ import omega.command.AddCommand;
 import omega.command.Command;
 import omega.command.DeleteCommand;
 import omega.command.ExitCommand;
+import omega.command.FindCommand;
 import omega.command.ListCommand;
 import omega.command.MarkCommand;
 import omega.command.UnmarkCommand;
@@ -35,21 +36,29 @@ public class Parser {
 
         Command cmd;
         switch (cmdCode) {
-            case "bye" -> cmd = new ExitCommand();
-            case "list" -> cmd = new ListCommand();
+        case "bye" -> cmd = new ExitCommand();
+        case "list" -> cmd = new ListCommand();
 
-            case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
-            case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
-            case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
+        case "mark" -> cmd = new MarkCommand(parseIndex(args, "mark"));
+        case "unmark" -> cmd = new UnmarkCommand(parseIndex(args, "unmark"));
+        case "delete" -> cmd = new DeleteCommand(parseIndex(args, "delete"));
+        case "find" -> cmd = new FindCommand(parseKeyword(args));
 
-            case "todo" -> cmd = new AddCommand(parseTodo(args));
-            case "deadline" -> cmd = new AddCommand(parseDeadline(args));
-            case "event" -> cmd = new AddCommand(parseEvent(args));
+        case "todo" -> cmd = new AddCommand(parseTodo(args));
+        case "deadline" -> cmd = new AddCommand(parseDeadline(args));
+        case "event" -> cmd = new AddCommand(parseEvent(args));
 
-            default -> throw new OmegaException("I don't understand that command.");
+        default -> throw new OmegaException("I don't understand that command.");
         }
 
         return cmd;
+    }
+
+    private static String parseKeyword(String args) throws OmegaException {
+        if (args.isEmpty()) {
+            throw new OmegaException("Usage: find <keyword>");
+        }
+        return args;
     }
 
     private static int parseIndex(String args, String cmd) throws OmegaException {
