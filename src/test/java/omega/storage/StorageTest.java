@@ -27,9 +27,8 @@ public class StorageTest {
     Path tempDir;
 
     /**
-     * Tests that loading from a non-existent file creates the file and returns an
-     * empty task list.
-     * 
+     * Tests that loading from a non-existent file creates the file and returns an empty list
+     *
      * @throws Exception If an error occurs during the test.
      */
     @Test
@@ -48,7 +47,7 @@ public class StorageTest {
 
     /**
      * Tests that saving and then loading tasks preserves their state.
-     * 
+     *
      * @throws Exception If an error occurs during the test.
      */
     @Test
@@ -77,7 +76,7 @@ public class StorageTest {
 
     /**
      * Tests that loading from a file with an unknown task type throws.
-     * 
+     *
      * @throws Exception If an error occurs during the test.
      */
     @Test

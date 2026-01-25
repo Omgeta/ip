@@ -36,7 +36,7 @@ public class Ui {
 
     /**
      * Reads a command from the user input.
-     * 
+     *
      * @return The command entered by the user.
      */
     public String readCommand() {
@@ -53,7 +53,7 @@ public class Ui {
 
     /**
      * Displays an error message to the user.
-     * 
+     *
      * @param message The error message to be displayed.
      */
     public void showError(String message) {
@@ -62,7 +62,7 @@ public class Ui {
 
     /**
      * Displays a message indicating that a task has been added.
-     * 
+     *
      * @param t    The task that was added.
      * @param size The current size of the task list.
      */
@@ -72,7 +72,7 @@ public class Ui {
 
     /**
      * Displays a message indicating that a task has been deleted.
-     * 
+     *
      * @param t    The task that was deleted.
      * @param size The current size of the task list.
      */
@@ -82,7 +82,7 @@ public class Ui {
 
     /**
      * Displays a message indicating that a task has been marked as done.
-     * 
+     *
      * @param t The task that was marked.
      */
     public void showMarked(Task t) {
@@ -91,7 +91,7 @@ public class Ui {
 
     /**
      * Displays a message indicating that a task has been unmarked as not done.
-     * 
+     *
      * @param t The task that was unmarked.
      */
     public void showUnmarked(Task t) {
@@ -100,7 +100,7 @@ public class Ui {
 
     /**
      * Displays the list of tasks to the user.
-     * 
+     *
      * @param tasks The task list to be displayed.
      */
     public void showList(TaskList tasks) {

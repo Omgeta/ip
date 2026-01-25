@@ -23,7 +23,7 @@ public class DeleteCommand extends Command {
 
     /**
      * Deletes specified task from list, saves to storage and show removal message.
-     * 
+     *
      * @param tasks   Task list from which the task will be deleted.
      * @param ui      User interface to show removal message.
      * @param storage Storage system for saving data.

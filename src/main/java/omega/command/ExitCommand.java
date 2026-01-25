@@ -10,7 +10,7 @@ import omega.ui.Ui;
 public class ExitCommand extends Command {
     /**
      * Displays goodbye message to the user.
-     * 
+     *
      * @param tasks   Task list (not used in this command).
      * @param ui      User interface to show goodbye message.
      * @param storage Storage system (not used in this command).

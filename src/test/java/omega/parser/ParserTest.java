@@ -21,7 +21,7 @@ import omega.command.UnmarkCommand;
 public class ParserTest {
     /**
      * Tests that valid command inputs are parsed into the expected Command types.
-     * 
+     *
      * @throws Exception If parsing fails unexpectedly.
      */
     @Test
@@ -52,8 +52,8 @@ public class ParserTest {
 
     /**
      * Tests that the "bye" command is recognized as an exit command.
-     * 
-     * @throws Exception
+     *
+     * @throws Exception If parsing fails unexpectedly
      */
     @Test
     public void parse_bye_isExit() throws Exception {

@@ -23,7 +23,7 @@ public class MarkCommand extends Command {
 
     /**
      * Marks specified task as completed, saves to storage and show marked message.
-     * 
+     *
      * @param tasks   Task list containing the task to be marked.
      * @param ui      User interface to show marked message.
      * @param storage Storage system for saving data.

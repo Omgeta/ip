@@ -2,8 +2,6 @@ package omega.task;
 
 import java.util.Map;
 
-import omega.OmegaException;
-
 /**
  * Represents a todo task with a description.
  */

@@ -10,7 +10,7 @@ import omega.ui.Ui;
 public class ListCommand extends Command {
     /**
      * Displays all tasks in the task list to the user.
-     * 
+     *
      * @param tasks   Task list containing the tasks to be listed.
      * @param ui      User interface to show the list of tasks.
      * @param storage Storage system (not used in this command).
