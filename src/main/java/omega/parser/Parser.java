@@ -1,5 +1,7 @@
 package omega.parser;
 
+import java.util.Map;
+
 import omega.OmegaException;
 import omega.command.AddCommand;
 import omega.command.Command;
@@ -18,6 +20,18 @@ import omega.task.Todo;
  * Parses user input strings into corresponding Command objects.
  */
 public class Parser {
+    private static final Map<String, String> ALIASES = Map.of(
+            "b", "bye",
+            "l", "list",
+            "m", "mark",
+            "u", "unmark",
+            "del", "delete",
+            "f", "find",
+            "t", "todo",
+            "d", "deadline",
+            "e", "event"
+    );
+
     /**
      * Parses the given input string and returns the corresponding Command object.
      *
@@ -32,6 +46,7 @@ public class Parser {
 
         String[] parts = input.trim().split("\\s+", 2);
         String cmdCode = parts[0].toLowerCase();
+        cmdCode = ALIASES.getOrDefault(cmdCode, cmdCode);
         String args = (parts.length == 2) ? parts[1].trim() : "";
 
         Command cmd;
