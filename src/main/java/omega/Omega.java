@@ -3,7 +3,9 @@ package omega;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javafx.stage.WindowEvent;
 import omega.command.Command;
+import omega.command.ExitCommand;
 import omega.parser.Parser;
 import omega.storage.Storage;
 import omega.task.TaskList;
@@ -37,6 +39,13 @@ public class Omega {
     }
 
     /**
+     * Constructs the Omega application with the default file path for storage.
+     */
+    public Omega() {
+        this(FILE_PATH);
+    }
+
+    /**
      * Main method to start the Omega application.
      *
      * @param args Command-line arguments (not used).
@@ -67,4 +76,32 @@ public class Omega {
         }
     }
 
+    /**
+     * Returns command response for a command
+     *
+     * @param input User input
+     * @return Response given by Omega
+     */
+    public String getResponse(String input) {
+        try {
+            Command cmd = Parser.parse(input.trim());
+            return cmd.execute(tasks, ui, storage);
+        } catch (OmegaException e) {
+            return ui.showError(e.getMessage());
+        }
+    }
+
+    /**
+     * Runs exit logic on window close
+     *
+     * @param windowEvent Event for window closure
+     */
+    public void shutdown(WindowEvent windowEvent) {
+        try {
+            Command exit = new ExitCommand();
+            exit.execute(tasks, ui, storage);
+        } catch (OmegaException e) {
+            ui.showError(e.getMessage());
+        }
+    }
 }

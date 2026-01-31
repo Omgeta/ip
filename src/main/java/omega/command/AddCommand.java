@@ -27,12 +27,13 @@ public class AddCommand extends Command {
      * @param tasks   Task list to add the new task to.
      * @param ui      User interface for displaying success message.
      * @param storage Storage system for saving the updated task list.
+     * @return String response from command execution
      * @throws OmegaException If saving to storage fails
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
         tasks.add(taskToAdd);
         storage.save(tasks);
-        ui.showAdded(taskToAdd, tasks.size());
+        return ui.showAdded(taskToAdd, tasks.size());
     }
 }
