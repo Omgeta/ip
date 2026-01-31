@@ -21,7 +21,7 @@ public class Ui {
     private final Scanner scanner = new Scanner(System.in);
 
     private String printLines(String... lines) {
-        String out = String.join(System.lineSeparator(), lines);
+        String out = String.join(System.lineSeparator(), lines) + System.lineSeparator();
         System.out.print(out);
         return out;
     }
