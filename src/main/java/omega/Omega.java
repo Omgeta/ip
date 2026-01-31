@@ -37,6 +37,13 @@ public class Omega {
     }
 
     /**
+     * Constructs the Omega application with the default file path for storage.
+     */
+    public Omega() {
+        this(FILE_PATH);
+    }
+
+    /**
      * Main method to start the Omega application.
      *
      * @param args Command-line arguments (not used).
@@ -71,7 +78,7 @@ public class Omega {
      * Returns command response for a command
      *
      * @param input User input
-     * @returns Response given by Omega
+     * @return Response given by Omega
      */
     public String getResponse(String input) {
         try {
