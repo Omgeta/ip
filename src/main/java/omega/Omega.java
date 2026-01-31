@@ -67,4 +67,18 @@ public class Omega {
         }
     }
 
+    /**
+     * Returns command response for a command
+     *
+     * @param input User input
+     * @returns Response given by Omega
+     */
+    public String getResponse(String input) {
+        try {
+            Command cmd = Parser.parse(input.trim());
+            return cmd.execute(tasks, ui, storage);
+        } catch (OmegaException e) {
+            return ui.showError(e.getMessage());
+        }
+    }
 }

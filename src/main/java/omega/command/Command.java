@@ -15,9 +15,10 @@ public abstract class Command {
      * @param tasks   Task list to operate on.
      * @param ui      User interface for displaying messages.
      * @param storage Storage system for saving data.
+     * @return String response from command execution
      * @throws OmegaException If an error occurs during command execution.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException;
 
     /**
      * Indicates whether this command is an exit command.

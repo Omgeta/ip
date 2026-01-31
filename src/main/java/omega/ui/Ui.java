@@ -22,16 +22,24 @@ public class Ui {
 
     /**
      * Displays the welcome message to the user.
+     *
+     * @return Welcome message as String
      */
-    public void showWelcome() {
-        System.out.println("Greetings, my name is\n" + LOGO + "\nHow may I be of assistance?");
+    public String showWelcome() {
+        String output = "Greetings, my name is\n" + LOGO + "\nHow may I be of assistance?";
+        System.out.println(output);
+        return output;
     }
 
     /**
      * Displays the goodbye message to the user.
+     *
+     * @return Bye message as String
      */
-    public void showBye() {
-        System.out.println("Au revoir.");
+    public String showBye() {
+        String output = "Au revoir.";
+        System.out.println(output);
+        return output;
     }
 
     /**
@@ -55,9 +63,12 @@ public class Ui {
      * Displays an error message to the user.
      *
      * @param message The error message to be displayed.
+     * @return Error message as String
      */
-    public void showError(String message) {
-        System.out.println("Unfortunately, I ran into an error:\n" + message);
+    public String showError(String message) {
+        String output = "Unfortunately, I ran into an error:\n" + message;
+        System.out.println(output);
+        return output;
     }
 
     /**
@@ -65,9 +76,12 @@ public class Ui {
      *
      * @param t    The task that was added.
      * @param size The current size of the task list.
+     * @return Added message as String
      */
-    public void showAdded(Task t, int size) {
-        System.out.println("I've added the task:\n " + t + "\nNow you have " + size + " tasks in the list");
+    public String showAdded(Task t, int size) {
+        String output = "I've added the task:\n " + t + "\nNow you have " + size + " tasks in the list";
+        System.out.println(output);
+        return output;
     }
 
     /**
@@ -75,40 +89,53 @@ public class Ui {
      *
      * @param t    The task that was deleted.
      * @param size The current size of the task list.
+     * @return Deleted message as String
      */
-    public void showDeleted(Task t, int size) {
-        System.out.println("I've removed the task:\n " + t + "\nNow you have " + size + " tasks in the list");
+    public String showDeleted(Task t, int size) {
+        String output = "I've removed the task:\n " + t + "\nNow you have " + size + " tasks in the list";
+        System.out.println(output);
+        return output;
     }
 
     /**
      * Displays a message indicating that a task has been marked as done.
      *
      * @param t The task that was marked.
+     * @return Marked message as String
      */
-    public void showMarked(Task t) {
-        System.out.println("I've marked the task as done: " + t);
+    public String showMarked(Task t) {
+        String output = "I've marked the task as done: " + t;
+        System.out.println(output);
+        return output;
     }
 
     /**
      * Displays a message indicating that a task has been unmarked as not done.
      *
      * @param t The task that was unmarked.
+     * @return Unmarked message as String
      */
-    public void showUnmarked(Task t) {
-        System.out.println("I've unmarked the task as not done: " + t);
+    public String showUnmarked(Task t) {
+        String output = "I've unmarked the task as not done: " + t;
+        System.out.println(output);
+        return output;
     }
 
     /**
      * Displays the list of tasks to the user.
      *
-     * @param tasks The task list to be displayed.
+     * @param tasks The task list to be displayed
+     * @return List message as String
      */
-    public void showList(TaskList tasks) {
+    public String showList(TaskList tasks) {
+        String output;
         if (tasks.isEmpty()) {
-            System.out.println("Task list is empty");
+            output = "Task list is empty";
         } else {
-            System.out.println("Task list:\n" + tasks);
+            output = "Task list:\n" + tasks;
         }
+        System.out.println(output);
+        return output;
     }
 
     /**
@@ -116,12 +143,16 @@ public class Ui {
      *
      * @param keyword Keyword filtered by
      * @param tasks   The task list to be displayed.
+     * @return Find message as String
      */
-    public void showFindList(String keyword, TaskList tasks) {
+    public String showFindList(String keyword, TaskList tasks) {
+        String output;
         if (tasks.isEmpty()) {
-            System.out.println("Failed to find any matches for " + keyword);
+            output = "Failed to find any matches for " + keyword;
         } else {
-            System.out.println("Here are the matches for " + keyword + ":\n" + tasks);
+            output = "Here are the matches for " + keyword + ":\n" + tasks;
         }
+        System.out.println(output);
+        return output;
     }
 }

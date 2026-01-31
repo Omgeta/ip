@@ -27,12 +27,13 @@ public class MarkCommand extends Command {
      * @param tasks   Task list containing the task to be marked.
      * @param ui      User interface to show marked message.
      * @param storage Storage system for saving data.
+     * @return String response from command execution
      * @throws OmegaException If an error occurs during marking or saving.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
         Task t = tasks.mark(index);
         storage.save(tasks);
-        ui.showMarked(t);
+        return ui.showMarked(t);
     }
 }

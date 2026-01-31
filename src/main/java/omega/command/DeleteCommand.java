@@ -27,12 +27,13 @@ public class DeleteCommand extends Command {
      * @param tasks   Task list from which the task will be deleted.
      * @param ui      User interface to show removal message.
      * @param storage Storage system for saving data.
+     * @return String response from command execution
      * @throws OmegaException If an error occurs during deletion or saving.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
         Task t = tasks.delete(index);
         storage.save(tasks);
-        ui.showDeleted(t, tasks.size());
+        return ui.showDeleted(t, tasks.size());
     }
 }
