@@ -3,7 +3,9 @@ package omega;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javafx.stage.WindowEvent;
 import omega.command.Command;
+import omega.command.ExitCommand;
 import omega.parser.Parser;
 import omega.storage.Storage;
 import omega.task.TaskList;
@@ -86,6 +88,20 @@ public class Omega {
             return cmd.execute(tasks, ui, storage);
         } catch (OmegaException e) {
             return ui.showError(e.getMessage());
+        }
+    }
+
+    /**
+     * Runs exit logic on window close
+     *
+     * @param windowEvent Event for window closure
+     */
+    public void shutdown(WindowEvent windowEvent) {
+        try {
+            Command exit = new ExitCommand();
+            exit.execute(tasks, ui, storage);
+        } catch (OmegaException e) {
+            ui.showError(e.getMessage());
         }
     }
 }
