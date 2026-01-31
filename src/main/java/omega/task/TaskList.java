@@ -131,7 +131,7 @@ public record TaskList(List<Task> tasks) {
 
     private void ensureIndexExists(int index) throws OmegaException {
         if (index < 0 || index >= tasks.size()) {
-            throw new OmegaException("omega.task.Task number out of bounds");
+            throw new OmegaException("that task number is out of bounds");
         }
     }
 }
