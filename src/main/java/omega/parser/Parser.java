@@ -68,7 +68,7 @@ public class Parser {
         try {
             return Integer.parseInt(args.trim()) - 1; // convert to 0-based
         } catch (NumberFormatException e) {
-            throw new OmegaException("omega.task.Task number must be a number.");
+            throw new OmegaException("the task number must be a number.");
         }
     }
 
@@ -95,6 +95,8 @@ public class Parser {
             throw new OmegaException("The /by part of a deadline cannot be empty.");
         }
 
+        assert args.contains("/by") : "parseDeadline called without /by";
+
         return new Deadline(desc, by); // if you did Level 8, call omega.task.Deadline.fromUserInput(desc, by)
     }
 
@@ -119,8 +121,10 @@ public class Parser {
             throw new OmegaException("The description of an event cannot be empty.");
         }
         if (from.isEmpty() || to.isEmpty()) {
-            throw new OmegaException("omega.task.Event must have both /from and /to.");
+            throw new OmegaException("event must have both /from and /to.");
         }
+
+        assert args.contains("/from") && args.contains("/to") : "parseEvent called without /from and /to";
 
         return new Event(desc, from, to);
     }

@@ -105,6 +105,10 @@ public abstract class Task {
         map.put("done", isDone ? "1" : "0");
         map.put("desc", description);
         map.putAll(getExtraSerializationFields());
+
+        assert map.containsKey("type") : "Serialization must include type";
+        assert map.containsKey("done") : "Serialization must include done";
+        assert map.containsKey("desc") : "Serialization must include desc";
         return map;
     }
 
