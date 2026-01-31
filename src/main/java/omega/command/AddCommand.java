@@ -32,7 +32,9 @@ public class AddCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws OmegaException {
+        int before = tasks.size();
         tasks.add(taskToAdd);
+        assert tasks.size() == before + 1 : "Add should increment task count";
         storage.save(tasks);
         return ui.showAdded(taskToAdd, tasks.size());
     }
