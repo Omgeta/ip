@@ -15,9 +15,9 @@ import javafx.scene.layout.VBox;
  */
 public class MainWindow extends AnchorPane {
     private final Image userImage = new Image(
-        Objects.requireNonNull(this.getClass().getResourceAsStream("/images/User.png")));
+            Objects.requireNonNull(this.getClass().getResourceAsStream("/images/User.png")));
     private final Image omegaImage = new Image(
-        Objects.requireNonNull(this.getClass().getResourceAsStream("/images/Omega.png")));
+            Objects.requireNonNull(this.getClass().getResourceAsStream("/images/Omega.png")));
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -47,10 +47,10 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = omega.getResponse(input);
+        String response = omega.getResponse(input).trim();
         dialogContainer.getChildren().addAll(
-            DialogBox.getUserDialog(input, userImage),
-            DialogBox.getOmegaDialog(response, omegaImage)
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getOmegaDialog(response, omegaImage)
         );
         userInput.clear();
     }
