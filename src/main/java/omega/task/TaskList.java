@@ -80,15 +80,11 @@ public record TaskList(List<Task> tasks) {
      * @return TaskList of filtered tasks.
      */
     public TaskList find(String keyword) {
-        keyword = keyword.toLowerCase();
-        TaskList matches = new TaskList();
-
-        for (Task t : tasks) {
-            if (t.description.toLowerCase().contains(keyword)) {
-                matches.add(t);
-            }
-        }
-        return matches;
+        String search = keyword.toLowerCase();
+        List<Task> filtered = tasks.stream()
+                .filter(t -> t.description.toLowerCase().contains(search))
+                .toList();
+        return new TaskList(filtered);
     }
 
     /**
