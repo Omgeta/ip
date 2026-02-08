@@ -1,10 +1,16 @@
 package omega.task;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.joestelmach.natty.DateGroup;
+import com.joestelmach.natty.Parser;
 
 import omega.OmegaException;
 
@@ -39,7 +45,17 @@ public abstract class Task {
         try {
             return LocalDate.parse(dtString);
         } catch (DateTimeParseException e) {
-            throw new OmegaException("Failed to parse date: " + e.getMessage());
+            Parser parser = new Parser();
+            List<DateGroup> groups = parser.parse(dtString);
+
+            if (groups.isEmpty()) {
+                throw new OmegaException("Failed to parse date: " + dtString);
+            }
+
+            Date date = groups.get(0).getDates().get(0);
+            return date.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
         }
     }
 
