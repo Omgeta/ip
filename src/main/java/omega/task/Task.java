@@ -45,18 +45,22 @@ public abstract class Task {
         try {
             return LocalDate.parse(dtString);
         } catch (DateTimeParseException e) {
-            Parser parser = new Parser();
-            List<DateGroup> groups = parser.parse(dtString);
-
-            if (groups.isEmpty()) {
-                throw new OmegaException("Failed to parse date: " + dtString);
-            }
-
-            Date date = groups.get(0).getDates().get(0);
-            return date.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+            return parseNaturalDate(dtString);
         }
+    }
+
+    private static LocalDate parseNaturalDate(String dtString) throws OmegaException {
+        Parser parser = new Parser();
+        List<DateGroup> groups = parser.parse(dtString);
+
+        if (groups.isEmpty()) {
+            throw new OmegaException("Failed to parse date: " + dtString);
+        }
+
+        Date date = groups.get(0).getDates().get(0);
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
     /**
