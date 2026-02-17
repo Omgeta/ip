@@ -20,6 +20,7 @@ public class Omega {
     private final Storage storage;
     private final TaskList tasks;
     private boolean isError;
+    private boolean isExit = false;
 
     /**
      * Constructs the Omega application with the specified file path for storage.
@@ -61,7 +62,6 @@ public class Omega {
     public void run() {
         ui.showWelcome();
 
-        boolean isExit = false;
         while (!isExit) {
             try {
                 String input = ui.readCommand();
@@ -87,6 +87,7 @@ public class Omega {
         try {
             Command cmd = Parser.parse(input.trim());
             String response = cmd.execute(tasks, ui, storage);
+            isExit = cmd.isExit();
             isError = false;
             return response;
         } catch (OmegaException e) {
@@ -102,6 +103,15 @@ public class Omega {
      */
     public boolean checkError() {
         return isError;
+    }
+
+    /**
+     * Returns if last command was an exit command
+     *
+     * @return True if last command caused Omega to exit
+     */
+    public boolean isExitRequested() {
+        return isExit;
     }
 
     /**

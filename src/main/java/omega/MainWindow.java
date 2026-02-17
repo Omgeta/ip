@@ -2,6 +2,7 @@ package omega;
 
 import java.util.Objects;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -9,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -24,6 +27,7 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    private Stage stage;
     private Omega omega;
 
     @FXML
@@ -36,6 +40,13 @@ public class MainWindow extends AnchorPane {
      */
     public void setOmega(Omega o) {
         omega = o;
+    }
+
+    /**
+     * Injects the wrapping Stage
+     */
+    public void setStage(Stage s) {
+        stage = s;
     }
 
     /**
@@ -52,5 +63,12 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getOmegaDialog(response, omegaImage, isError)
         );
         userInput.clear();
+
+        // AI: write transition delay for exit request
+        if (omega.isExitRequested()) {
+            PauseTransition delay = new PauseTransition(Duration.millis(350));
+            delay.setOnFinished(e -> stage.close());
+            delay.play();
+        }
     }
 }
