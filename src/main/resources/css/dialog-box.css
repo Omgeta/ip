@@ -1,20 +1,40 @@
 .label {
-    background:white;
-    -fx-background-color: background;
-    -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
-    -fx-border-width: 2px;
-    -fx-background-radius: 1em 1em 0 1em;
-    -fx-border-radius: 1em 1em 0 1em;
-    -fx-padding: 6px;
-    -fx-border-insets: 0px 7px 0px 7px;
-    -fx-background-insets: 0px 7px 0px 7px;
-    -fx-text-fill: ladder(background, white 49%, black 50%);
+    -fx-padding: 8 10 8 10;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-width: 1px;
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 10, 0.25, 0, 2);
 }
 
-.reply-label {
-    -fx-background-radius: 1em 1em 1em 0;
-    -fx-border-radius: 1em 1em 1em 0;
+.user-bubble {
+    -fx-background-color: rgba(38, 38, 46, 0.92);
+    -fx-border-color: rgba(200, 170, 90, 0.85);
+    -fx-text-fill: #F1F1F6;
+    -fx-background-radius: 14 14 4 14;
+    -fx-border-radius: 14 14 4 14;
 }
+
+.reply-bubble {
+    -fx-background-color: rgba(18, 18, 24, 0.92);
+    -fx-border-color: rgba(190, 190, 200, 0.35);
+    -fx-text-fill: #E9E9EE;
+    -fx-background-radius: 14 14 14 4;
+    -fx-border-radius: 14 14 14 4;
+}
+
+.error-bubble {
+    -fx-background-color: rgba(64, 18, 24, 0.94);
+    -fx-border-color: rgba(220, 80, 90, 0.95);
+    -fx-text-fill: #FFF0F1;
+    -fx-background-radius: 14 14 14 4;
+    -fx-border-radius: 14 14 14 4;
+}
+
 
 #displayPicture {
     /* Shadow effect on image. */

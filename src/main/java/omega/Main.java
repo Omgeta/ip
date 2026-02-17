@@ -1,10 +1,12 @@
 package omega;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -25,6 +27,10 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setOmega(omega);
 
             stage.setOnCloseRequest(omega::shutdown);
+            stage.setTitle("Omega");
+            stage.getIcons().add(new Image(
+                    Objects.requireNonNull(getClass().getResourceAsStream("/images/icon.png"))
+            ));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

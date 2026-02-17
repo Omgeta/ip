@@ -13,12 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
+    private static final int IMAGE_SIZE = 80;
     @FXML
     private Label dialog;
     @FXML
@@ -36,26 +38,80 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        applyCircularCrop(DialogBox.IMAGE_SIZE);
+        if (img == null) {
+            displayPicture.setVisible(false);
+            displayPicture.setManaged(false);
+        }
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        var db = new DialogBox(text, img);
+        db.setUser();
+        return db;
     }
 
     public static DialogBox getOmegaDialog(String text, Image img) {
         var db = new DialogBox(text, img);
-        db.flip();
+        db.setReply();
         return db;
     }
 
     /**
-     * Flips the dialog box such that the ImageView is on the left and text on the right.
+     * Applies styles for replies from User.
      */
-    private void flip() {
+    private void setUser() {
+        setAlignment(Pos.BOTTOM_RIGHT);
+        dialog.getStyleClass().add("user-bubble");
+    }
+
+    /**
+     * Applies styles for normal replies from Omega.
+     */
+    private void setReply() {
+        setOmega();
+        dialog.getStyleClass().add("reply-bubble");
+    }
+
+    /**
+     * Applies styles for error replies from Omega.
+     */
+    private void setError() {
+        setOmega();
+        dialog.getStyleClass().add("error-bubble");
+    }
+
+    /**
+     * Applies styles for replies from Omega.
+     */
+    private void setOmega() {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
-        dialog.getStyleClass().add("reply-label");
-        setAlignment(Pos.TOP_LEFT);
+        setAlignment(Pos.BOTTOM_LEFT);
+    }
+
+    private void applyCircularCrop(double size) {
+        displayPicture.setFitWidth(size);
+        displayPicture.setFitHeight(size);
+        displayPicture.setPreserveRatio(true);
+        displayPicture.setSmooth(true);
+
+        Circle clip = new Circle(size / 2, size / 2, size / 2);
+        displayPicture.setClip(clip);
+
+        // Keep clip correct even if fit size changes later
+        displayPicture.fitWidthProperty().addListener((obs, o, n) -> {
+            double s = Math.min(displayPicture.getFitWidth(), displayPicture.getFitHeight());
+            clip.setCenterX(s / 2);
+            clip.setCenterY(s / 2);
+            clip.setRadius(s / 2);
+        });
+        displayPicture.fitHeightProperty().addListener((obs, o, n) -> {
+            double s = Math.min(displayPicture.getFitWidth(), displayPicture.getFitHeight());
+            clip.setCenterX(s / 2);
+            clip.setCenterY(s / 2);
+            clip.setRadius(s / 2);
+        });
     }
 }
