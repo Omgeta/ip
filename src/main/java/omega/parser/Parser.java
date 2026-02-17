@@ -41,7 +41,7 @@ public class Parser {
      */
     public static Command parse(String input) throws OmegaException {
         if (input == null || input.trim().isEmpty()) {
-            throw new OmegaException("Please enter a command.");
+            throw new OmegaException("I need a command.");
         }
 
         String[] parts = input.trim().split("\\s+", 2);

@@ -11,13 +11,13 @@ import omega.task.TaskList;
 public class Ui {
     private static final String LINE = "____________________________________________________________";
     private static final String LOGO = """
-          ___  _ __ ___   ___  __ _  __ _
-         / _ \\| '_ ` _ \\ / _ \\/ _` |/ _` |
-        | (_) | | | | | |  __/ (_| | (_| |
-         \\___/|_| |_| |_|\\___|\\__, |\\__,_|
-                               __/ |
-                              |___/
-        """;
+              ___  _ __ ___   ___  __ _  __ _
+             / _ \\| '_ ` _ \\ / _ \\/ _` |/ _` |
+            | (_) | | | | | |  __/ (_| | (_| |
+             \\___/|_| |_| |_|\\___|\\__, |\\__,_|
+                                   __/ |
+                                  |___/
+            """;
     private final Scanner scanner = new Scanner(System.in);
 
     private String printLines(String... lines) {
@@ -33,9 +33,9 @@ public class Ui {
      */
     public String showWelcome() {
         return printLines(
-            "Greetings, my name is",
-            LOGO,
-            "How may I be of assistance?"
+                "Greetings, my name is",
+                LOGO,
+                "How may I be of assistance?"
         );
     }
 
@@ -83,7 +83,7 @@ public class Ui {
      * @return Added message as String
      */
     public String showAdded(Task t, int size) {
-        return printLines("I've added the task:", t.toString(), "Now you have " + size + " tasks in the list");
+        return printLines("I've added the task:", t.toString(), "Now you have " + size + " tasks left");
     }
 
     /**
@@ -94,7 +94,7 @@ public class Ui {
      * @return Deleted message as String
      */
     public String showDeleted(Task t, int size) {
-        return printLines("I've removed the task:", t.toString(), "Now you have " + size + " tasks in the list");
+        return printLines("I've removed the task:", t.toString(), "Now you have " + size + " tasks left");
     }
 
     /**
@@ -114,7 +114,7 @@ public class Ui {
      * @return Unmarked message as String
      */
     public String showUnmarked(Task t) {
-        return printLines("I've unmarked the task as not done: " + t);
+        return printLines("I've unmarked the task as done: " + t);
     }
 
     /**
@@ -125,9 +125,9 @@ public class Ui {
      */
     public String showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            return printLines("Task list is empty");
+            return printLines("Your task list is empty");
         } else {
-            return printLines("Task list:", tasks.toString());
+            return printLines("Here is your task list:", tasks.toString());
         }
     }
 
@@ -140,7 +140,7 @@ public class Ui {
      */
     public String showFindList(String keyword, TaskList tasks) {
         if (tasks.isEmpty()) {
-            return printLines("Failed to find any matches for " + keyword);
+            return printLines("I failed to find any matches for " + keyword);
         } else {
             return printLines("Here are the matches for " + keyword + ":", tasks.toString());
         }

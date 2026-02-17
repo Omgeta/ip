@@ -40,7 +40,7 @@ public class Storage {
         String done = block.get("done");
         String desc = block.get("desc");
         if (typeCode == null || done == null || desc == null) {
-            throw new OmegaException("Failed to read core task fields");
+            throw new OmegaException("I failed to read core task fields");
         }
         TaskType type = TaskType.fromCode(typeCode);
 
@@ -52,7 +52,7 @@ public class Storage {
         case DEADLINE:
             String by = block.get("by");
             if (by == null) {
-                throw new OmegaException("Failed to read by field");
+                throw new OmegaException("I failed to read by field");
             }
             t = new Deadline(desc, by);
             break;
@@ -60,7 +60,7 @@ public class Storage {
             String from = block.get("from");
             String to = block.get("to");
             if (from == null || to == null) {
-                throw new OmegaException("Failed to read from or to fields");
+                throw new OmegaException("I failed to read from or to fields");
             }
             t = new Event(desc, block.get("from"), block.get("to"));
             break;
@@ -101,9 +101,9 @@ public class Storage {
                 }
             }
         } catch (IOException e) {
-            throw new OmegaException("Failed to read the save file: " + e.getMessage());
+            throw new OmegaException("I failed to read the save file: " + e.getMessage());
         } catch (OmegaException e) {
-            throw new OmegaException("Failed to read corrupted save file: " + e.getMessage());
+            throw new OmegaException("I failed to read a corrupted save file: " + e.getMessage());
         }
 
         return tasks;
@@ -129,7 +129,7 @@ public class Storage {
         try {
             Files.write(filePath, lines);
         } catch (IOException e) {
-            throw new OmegaException("Failed to write to the save file.");
+            throw new OmegaException("I failed to write to the save file.");
         }
     }
 
@@ -140,7 +140,7 @@ public class Storage {
                 Files.createFile(filePath);
             }
         } catch (IOException e) {
-            throw new OmegaException("Could not set up save file.");
+            throw new OmegaException("I could not set up the save file.");
         }
     }
 }
