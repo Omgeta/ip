@@ -25,6 +25,13 @@ public class Event extends Task {
         super(description);
         this.from = Task.parseDate(from);
         this.to = Task.parseDate(to);
+
+        // AI: generate check for illogical dates
+        if (this.from.isAfter(this.to)) {
+            throw new OmegaException("the provided event dates are illogical: 'from' must be on/before 'to'. "
+                    + "You gave from: " + Task.displayDate(this.from)
+                    + " to: " + Task.displayDate(this.to));
+        }
     }
 
     @Override
