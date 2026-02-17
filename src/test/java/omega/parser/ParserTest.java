@@ -105,21 +105,16 @@ public class ParserTest {
     /**
      * Tests that missing description or date for deadline command throws.
      */
-    @SuppressWarnings("checkstyle:Indentation")
     @Test
     public void parse_eventMissingFromTo_throwsException() {
-        String[] invalidInputs = {
-                "event project meeting",
-                "event project meeting /from 2026-02-15",
-                "event project meeting /to 2026-02-16",
-                "event project meeting /from  /to 2026-02-16",
-                "event project meeting /from 2026-02-15 /to ",
-                "event /from 2026-02-15 /to 2026-02-16",
-                "event project meeting /from2026-02-15 /to 2026-02-16",
-                "event project meeting /from 2026-02-15 /to 2026-02-16 /to 2026-02-17"
-        };
-        for (String input : invalidInputs) {
-            assertThrows(OmegaException.class, () -> Parser.parse(input));
-        }
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting"));
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting /from 2026-02-15"));
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting /to 2026-02-16"));
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting /from  /to 2026-02-16"));
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting /from 2026-02-15 /to "));
+        assertThrows(OmegaException.class, () -> Parser.parse("event /from 2026-02-15 /to 2026-02-16"));
+        assertThrows(OmegaException.class, () -> Parser.parse("event project meeting /from2026-02-15 /to 2026-02-16"));
+        assertThrows(OmegaException.class, () ->
+                Parser.parse("event project meeting /from 2026-02-15 /to 2026-02-16 /to 2026-02-17"));
     }
 }
