@@ -1,6 +1,8 @@
 package omega.parser;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import omega.OmegaException;
 import omega.command.AddCommand;
@@ -71,14 +73,14 @@ public class Parser {
 
     private static String parseKeyword(String args) throws OmegaException {
         if (args.isEmpty()) {
-            throw new OmegaException("Usage: find <keyword>");
+            throw new OmegaException("Usage is: find <keyword>");
         }
         return args;
     }
 
     private static int parseIndex(String args, String cmd) throws OmegaException {
         if (args.isEmpty()) {
-            throw new OmegaException("Usage: " + cmd + " <taskNumber>");
+            throw new OmegaException("Usage is: " + cmd + " <taskNumber>");
         }
         try {
             return Integer.parseInt(args.trim()) - 1; // convert to 0-based
@@ -89,15 +91,17 @@ public class Parser {
 
     private static Task parseTodo(String desc) throws OmegaException {
         if (desc.isEmpty()) {
-            throw new OmegaException("Usage: todo <description>");
+            throw new OmegaException("Usage is: todo <description>");
         }
         return new Todo(desc);
     }
 
     private static Task parseDeadline(String args) throws OmegaException {
+        int byCount = countFlag(args, "/by");
+
         String[] parts = args.split("\\s+/by\\s+", 2);
-        if (parts.length < 2) {
-            throw new OmegaException("Usage: deadline <description> /by <by>");
+        if (parts.length < 2 || byCount != 1) {
+            throw new OmegaException("Usage is: deadline <description> /by <by>");
         }
 
         String desc = parts[0].trim();
@@ -116,8 +120,11 @@ public class Parser {
     }
 
     private static Task parseEvent(String args) throws OmegaException {
+        int fromCount = countFlag(args, "/from");
+        int toCount = countFlag(args, "/to");
+
         String[] first = args.split("\\s+/from\\s+", 2);
-        if (first.length < 2) {
+        if (first.length < 2 || fromCount != 1) {
             throw new OmegaException("Usage: event <description> /from <from> /to <to>");
         }
 
@@ -125,7 +132,7 @@ public class Parser {
         String rest = first[1].trim();
 
         String[] second = rest.split("\\s+/to\\s+", 2);
-        if (second.length < 2) {
+        if (second.length < 2 || toCount != 1) {
             throw new OmegaException("Usage: event <description> /from <from> /to <to>");
         }
 
@@ -142,5 +149,17 @@ public class Parser {
         assert args.contains("/from") && args.contains("/to") : "parseEvent called without /from and /to";
 
         return new Event(desc, from, to);
+    }
+
+    // AI: used to generate this helper method
+    private static int countFlag(String input, String flag) {
+        // Matches "/from" or "/to" as its own token (preceded by start/whitespace, followed by whitespace/end)
+        Pattern p = Pattern.compile("(?:^|\\s)" + Pattern.quote(flag) + "(?=\\s|$)");
+        Matcher m = p.matcher(input);
+        int count = 0;
+        while (m.find()) {
+            count++;
+        }
+        return count;
     }
 }
