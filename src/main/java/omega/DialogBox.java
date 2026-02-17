@@ -38,19 +38,35 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
-        applyCircularCrop(DialogBox.IMAGE_SIZE);
+        applyCircularCrop();
         if (img == null) {
             displayPicture.setVisible(false);
             displayPicture.setManaged(false);
         }
     }
 
+    /**
+     * Returns DialogBox for a user input.
+     *
+     * @param text User input text
+     * @param img  Image shown next to reply text
+     * @return Styled DialogBox for User input
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.setUser();
         return db;
     }
 
+    /**
+     * Returns DialogBox for Omega's response
+     * If response was an error, the DialogBox is styled differently
+     *
+     * @param text    Omega response message
+     * @param img     Image shown next to reply text
+     * @param isError If response was an error message
+     * @return Styled DialogBox for Omega response
+     */
     public static DialogBox getOmegaDialog(String text, Image img, boolean isError) {
         var db = new DialogBox(text, img);
         if (!isError) {
@@ -95,13 +111,19 @@ public class DialogBox extends HBox {
         setAlignment(Pos.BOTTOM_LEFT);
     }
 
-    private void applyCircularCrop(double size) {
-        displayPicture.setFitWidth(size);
-        displayPicture.setFitHeight(size);
+    /**
+     * Applies circular crop to displayPicture
+     */
+    private void applyCircularCrop() {
+        // AI: used to generate code for crop method
+        displayPicture.setFitWidth(DialogBox.IMAGE_SIZE);
+        displayPicture.setFitHeight(DialogBox.IMAGE_SIZE);
         displayPicture.setPreserveRatio(true);
         displayPicture.setSmooth(true);
 
-        Circle clip = new Circle(size / 2, size / 2, size / 2);
+        Circle clip = new Circle(
+                (double) DialogBox.IMAGE_SIZE / 2, (double) DialogBox.IMAGE_SIZE / 2,
+                (double) DialogBox.IMAGE_SIZE / 2);
         displayPicture.setClip(clip);
 
         // Keep clip correct even if fit size changes later
