@@ -104,7 +104,7 @@ public class Ui {
      * @return Marked message as String
      */
     public String showMarked(Task t) {
-        return printLines("I've marked the task as done: " + t);
+        return printLines("I've marked the task as done:", t.toString());
     }
 
     /**
@@ -114,7 +114,7 @@ public class Ui {
      * @return Unmarked message as String
      */
     public String showUnmarked(Task t) {
-        return printLines("I've unmarked the task as done: " + t);
+        return printLines("I've unmarked the task as done:", t.toString());
     }
 
     /**
