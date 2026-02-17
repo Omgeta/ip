@@ -51,9 +51,13 @@ public class DialogBox extends HBox {
         return db;
     }
 
-    public static DialogBox getOmegaDialog(String text, Image img) {
+    public static DialogBox getOmegaDialog(String text, Image img, boolean isError) {
         var db = new DialogBox(text, img);
-        db.setReply();
+        if (!isError) {
+            db.setReply();
+        } else {
+            db.setError();
+        }
         return db;
     }
 

@@ -46,9 +46,10 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = omega.getResponse(input).trim();
+        boolean isError = omega.checkError();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, null),
-                DialogBox.getOmegaDialog(response, omegaImage)
+                DialogBox.getOmegaDialog(response, omegaImage, isError)
         );
         userInput.clear();
     }

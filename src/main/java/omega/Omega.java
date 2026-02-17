@@ -19,6 +19,7 @@ public class Omega {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
+    private boolean isError;
 
     /**
      * Constructs the Omega application with the specified file path for storage.
@@ -85,10 +86,22 @@ public class Omega {
     public String getResponse(String input) {
         try {
             Command cmd = Parser.parse(input.trim());
-            return cmd.execute(tasks, ui, storage);
+            String response = cmd.execute(tasks, ui, storage);
+            isError = false;
+            return response;
         } catch (OmegaException e) {
+            isError = true;
             return ui.showError(e.getMessage());
         }
+    }
+
+    /**
+     * Returns if last command caused an error
+     *
+     * @return True if last command caused Omega to error
+     */
+    public boolean checkError() {
+        return isError;
     }
 
     /**
