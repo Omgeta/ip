@@ -27,17 +27,17 @@ public class ParserTest {
     @Test
     public void parse_validCommandInput_returnsExpectedCommandType() throws Exception {
         Object[][] cases = {
-            {"bye", ExitCommand.class},
-            {"list", ListCommand.class},
+                {"bye", ExitCommand.class},
+                {"list", ListCommand.class},
 
-            {"mark 1", MarkCommand.class},
-            {"unmark 1", UnmarkCommand.class},
-            {"delete 1", DeleteCommand.class},
-            {"find keyword", FindCommand.class},
+                {"mark 1", MarkCommand.class},
+                {"unmark 1", UnmarkCommand.class},
+                {"delete 1", DeleteCommand.class},
+                {"find keyword", FindCommand.class},
 
-            {"todo borrow book", AddCommand.class},
-            {"deadline return book /by 2019-10-15", AddCommand.class},
-            {"event project meeting /from 2019-10-15 /to 2019-10-16", AddCommand.class}
+                {"todo borrow book", AddCommand.class},
+                {"deadline return book /by 2026-02-15", AddCommand.class},
+                {"event project meeting /from 2026-02-15 /to 2026-02-16", AddCommand.class}
         };
 
         for (Object[] c : cases) {
@@ -105,17 +105,18 @@ public class ParserTest {
     /**
      * Tests that missing description or date for deadline command throws.
      */
+    @SuppressWarnings("checkstyle:Indentation")
     @Test
     public void parse_eventMissingFromTo_throwsException() {
         String[] invalidInputs = {
-            "event project meeting",
-            "event project meeting /from 2019-10-15",
-            "event project meeting /to 2019-10-16",
-            "event project meeting /from  /to 2019-10-16",
-            "event project meeting /from 2019-10-15 /to ",
-            "event /from 2019-10-15 /to 2019-10-16",
-            "event project meeting /from2019-10-15 /to 2019-10-16",
-            "event project meeting /from 2019-10-15 /to 2019-10-16 /to 2019-10-17"
+                "event project meeting",
+                "event project meeting /from 2026-02-15",
+                "event project meeting /to 2026-02-16",
+                "event project meeting /from  /to 2026-02-16",
+                "event project meeting /from 2026-02-15 /to ",
+                "event /from 2026-02-15 /to 2026-02-16",
+                "event project meeting /from2026-02-15 /to 2026-02-16",
+                "event project meeting /from 2026-02-15 /to 2026-02-16 /to 2026-02-17"
         };
         for (String input : invalidInputs) {
             assertThrows(OmegaException.class, () -> Parser.parse(input));
