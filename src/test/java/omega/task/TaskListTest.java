@@ -22,8 +22,8 @@ public class TaskListTest {
         assertEquals(0, list.size());
         assertTrue(list.isEmpty());
 
-        list.add(new Todo("read book"));
-        list.add(new Todo("return book"));
+        list.add(new Todo("eat food"));
+        list.add(new Todo("cook meal"));
 
         assertEquals(2, list.size());
         assertFalse(list.isEmpty());
@@ -37,7 +37,7 @@ public class TaskListTest {
     @Test
     public void markAndUnmark_validTask_togglesDoneState() throws Exception {
         TaskList list = new TaskList();
-        list.add(new Todo("read book"));
+        list.add(new Todo("eat food"));
 
         Task marked = list.mark(0);
         assertTrue(marked.toString().contains("[X]"));
@@ -52,7 +52,7 @@ public class TaskListTest {
     @Test
     public void mark_outOfBounds_throwsException() {
         TaskList list = new TaskList();
-        list.add(new Todo("read book"));
+        list.add(new Todo("eat food"));
 
         assertThrows(OmegaException.class, () -> list.mark(-1));
         assertThrows(OmegaException.class, () -> list.mark(1));
@@ -65,12 +65,12 @@ public class TaskListTest {
     @Test
     public void delete_validTask_removesAndShiftsRemaining() throws Exception {
         TaskList list = new TaskList();
-        list.add(new Todo("read book"));
-        list.add(new Todo("return book"));
+        list.add(new Todo("eat food"));
+        list.add(new Todo("cook meal"));
         list.add(new Todo("buy bread"));
 
-        Task removed = list.delete(1); // remove "return book"
-        assertTrue(removed.toString().contains("return book"));
+        Task removed = list.delete(1); // remove "cook meal"
+        assertTrue(removed.toString().contains("cook meal"));
         assertEquals(2, list.size());
 
         // After deletion, former index 2 ("buy bread") should now be at index 1
@@ -83,8 +83,8 @@ public class TaskListTest {
     @Test
     public void toString_validTasks_enumeratesTasks() {
         TaskList list = new TaskList();
-        list.add(new Todo("read book"));
-        list.add(new Todo("return book"));
+        list.add(new Todo("eat food"));
+        list.add(new Todo("cook meal"));
 
         String[] lines = list.toString().split("\n");
         assertEquals(2, lines.length);
@@ -92,7 +92,7 @@ public class TaskListTest {
         assertTrue(lines[0].startsWith("1."), "First line should start with 1.");
         assertTrue(lines[1].startsWith("2."), "Second line should start with 2.");
 
-        assertTrue(lines[0].contains("read book"));
-        assertTrue(lines[1].contains("return book"));
+        assertTrue(lines[0].contains("eat food"));
+        assertTrue(lines[1].contains("cook meal"));
     }
 }

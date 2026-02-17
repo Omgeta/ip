@@ -56,9 +56,9 @@ public class StorageTest {
         Storage storage = new Storage(file);
 
         TaskList original = new TaskList();
-        original.add(new Todo("read book"));
-        original.add(new Deadline("return book", "2019-10-15"));
-        original.add(new Event("project meeting", "2019-10-15", "2019-10-16"));
+        original.add(new Todo("eat food"));
+        original.add(new Deadline("cook meal", "2026-02-15"));
+        original.add(new Event("project meeting", "2026-02-15", "2026-02-16"));
 
         // Mark one as done before saving
         original.mark(1);
