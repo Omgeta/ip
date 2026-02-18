@@ -48,7 +48,7 @@ public class Omega {
     }
 
     /**
-     * Main method to start the Omega application.
+     * Creates and runs an instance of the Omega application
      *
      * @param args Command-line arguments (not used).
      */
