@@ -1,6 +1,6 @@
 # Omega User Guide
 
-![Screenshot of product image](/docs/Ui.png)
+![Screenshot of product image](Ui.png)
 
 > "I'm simply one hell of a butler." - Sebastian Michaelis
 
