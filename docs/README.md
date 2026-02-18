@@ -1,6 +1,6 @@
 # Omega User Guide
 
-![Screenshot of product image](docs/Ui.png)
+![Screenshot of product image](/docs/Ui.png)
 
 > "I'm simply one hell of a butler." - Sebastian Michaelis
 
@@ -162,11 +162,11 @@ I've removed the task:
 Now you have 2 tasks left
 ```
 
-### Exiting application: `exit`
+### Exiting application: `bye`
 
 Exits the application.
 
-Format: `exit`
+Format: `bye`
 
 Expected output:
 
