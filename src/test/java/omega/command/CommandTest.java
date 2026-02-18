@@ -68,9 +68,9 @@ public class CommandTest {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("eat food"));
         tasks.add(new Todo("cook dinner"));
-        storage.save(tasks); // baseline save
+        storage.save(tasks);
 
-        DeleteCommand cmd = new DeleteCommand(1); // 1-based
+        DeleteCommand cmd = new DeleteCommand(0); // 0-based
         String out = cmd.execute(tasks, ui, storage);
 
         assertEquals(1, tasks.size());
