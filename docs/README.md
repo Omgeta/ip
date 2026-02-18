@@ -1,4 +1,4 @@
-# Omega User Guide
+<img width="518" height="805" alt="java_DpPZhBdn4V" src="https://github.com/user-attachments/assets/0f349220-297c-4da0-bdfc-0439aa244245" /># Omega User Guide
 
 ![Screenshot of product image](Ui.png)
 
@@ -174,5 +174,7 @@ Expected output:
 Au revoir.
 ```
 
+## Acknowledgements
 
+README is adapted from [AB3 User Guide](https://se-education.org/addressbook-level3/UserGuide.html#features)
 
